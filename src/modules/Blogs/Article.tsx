@@ -27,7 +27,10 @@ export default function Article() {
         <HStack alignItems="start" my={6}>
           <VStack h="100%" w="100%" alignItems={"start"} justifyContent={"start"} gap={4}>
             <Text fontSize="14px" fontWeight={600} letterSpacing={0.4} lineHeight="20px">
-              Document ID{id}
+              Document ID
+            </Text>
+            <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
+              {id}
             </Text>
             <Text fontSize="14px" fontWeight={600} letterSpacing={0.4} lineHeight="20px" textTransform="uppercase">
               Title
