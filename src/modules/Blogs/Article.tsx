@@ -1,39 +1,52 @@
-import { Button, Flex, HStack, Icon, Text, VStack } from "@chakra-ui/react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { Button, Center, Flex, HStack, Icon, Spinner, Text, VStack } from "@chakra-ui/react";
 
+import { useEffect, useState } from "react";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import { getArticleQuery } from "../../hooks/Blogs.api";
+import { ArticleProps } from "../../types/blogs.types";
 import Layout from "../Layout/Layout";
-import { ArticleProps } from "./BlogsTable";
 
 export default function Article() {
   const { id } = useParams();
-  let article: ArticleProps = {
-    id: 1,
-    title: "Title",
-    description: "Description",
-  };
+  const [article, setArticle] = useState({} as ArticleProps);
+
+  useEffect(() => {
+    if (id) {
+      getArticleQuery(id).then((res) => setArticle(res));
+    }
+  }, [id]);
+
+  console.log(article);
+
   return (
     <Layout>
-      <HStack alignItems="start" my={6}>
-        <VStack h="100%" w="100%" alignItems={"start"} justifyContent={"start"} gap={4}>
-          <Text fontSize="14px" fontWeight={600} letterSpacing={0.4} lineHeight="20px">
-            Article {id}
-          </Text>
-          <Text fontSize="14px" fontWeight={600} letterSpacing={0.4} lineHeight="20px" textTransform="uppercase">
-            Title
-          </Text>
-          <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
-            {article?.title}
-          </Text>
-          <Text fontSize="14px" fontWeight={600} letterSpacing={0.4} lineHeight="20px" textTransform="uppercase">
-            Description
-          </Text>
-          <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
-            {article?.description}
-          </Text>
-        </VStack>
-        <ArticleActions />
-      </HStack>
+      {article?.doc_id ? (
+        <HStack alignItems="start" my={6}>
+          <VStack h="100%" w="100%" alignItems={"start"} justifyContent={"start"} gap={4}>
+            <Text fontSize="14px" fontWeight={600} letterSpacing={0.4} lineHeight="20px">
+              Document ID{id}
+            </Text>
+            <Text fontSize="14px" fontWeight={600} letterSpacing={0.4} lineHeight="20px" textTransform="uppercase">
+              Title
+            </Text>
+            <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
+              {article?.title}
+            </Text>
+            <Text fontSize="14px" fontWeight={600} letterSpacing={0.4} lineHeight="20px" textTransform="uppercase">
+              Description
+            </Text>
+            <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
+              {article?.description}
+            </Text>
+          </VStack>
+          <ArticleActions />
+        </HStack>
+      ) : (
+        <Center>
+          <Spinner />
+        </Center>
+      )}
     </Layout>
   );
 }

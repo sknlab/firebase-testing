@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <Stack w="100%" h="6em">
           <Navbar />
         </Stack>
-        <Stack w="100%" h="calc(100vh - 6.2em)">
+        <Stack w="100%" minH="calc(100vh - 6.2em)" overflowY="scroll">
           {children ? children : <Spinner />}
         </Stack>
       </Center>
