@@ -30,7 +30,7 @@ export const EditArticleModal = ({ isOpen, onClose, id, userId, title, body }) =
       userId,
       ...data,
     };
-    // console.log('payload', payload)
+
     editPostMutation?.mutate(post);
 
     if (editPostMutation?.isSuccess) {

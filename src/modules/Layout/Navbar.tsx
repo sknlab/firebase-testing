@@ -1,10 +1,11 @@
-import { Avatar, Button, Flex, HStack, Icon, Text, VStack, useToast } from "@chakra-ui/react";
+import { Avatar, Button, Flex, HStack, Icon, Text, VStack, useDisclosure, useToast } from "@chakra-ui/react";
 import { FiEdit, FiHome, FiLogOut } from "react-icons/fi";
+import { Link, useNavigate } from "react-router-dom";
 
-import { AuthContext } from "../../context/AuthContext";
-import { handleLogout } from "../../hooks/Auth";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { handleLogout } from "../../hooks/Auth.api";
+import { CreateArticleModal } from "../Blogs/CreateArticleModal";
 
 export default function Navbar() {
   const { user, dispatch } = useContext(AuthContext);
@@ -41,18 +42,15 @@ export default function Navbar() {
       </HStack>
 
       <HStack gap={4}>
-        <HStack gap={1}>
-          <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
-            Home
-          </Text>
-          <Icon as={FiHome} />
-        </HStack>
-        <HStack>
-          <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
-            Write
-          </Text>
-          <Icon as={FiEdit} mr={1} />
-        </HStack>
+        <Link to="/">
+          <HStack gap={1} cursor="pointer">
+            <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
+              Home
+            </Text>
+            <Icon as={FiHome} />
+          </HStack>
+        </Link>
+        <WriteModal />
       </HStack>
 
       <Button variant="ghost" onClick={handleSignOut}>
@@ -66,3 +64,18 @@ export default function Navbar() {
     </Flex>
   );
 }
+
+const WriteModal = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      <HStack cursor="pointer" onClick={onOpen}>
+        <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
+          Write
+        </Text>
+        <Icon as={FiEdit} mr={1} />
+      </HStack>
+      <CreateArticleModal isOpen={isOpen} onClose={onClose} />
+    </>
+  );
+};

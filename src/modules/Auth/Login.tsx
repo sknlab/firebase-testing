@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import { handleAuthentication } from "../../hooks/Auth";
+import { handleAuthentication } from "../../hooks/Auth.api";
 
 export default function Login() {
   const { dispatch } = useContext(AuthContext);
