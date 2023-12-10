@@ -94,7 +94,7 @@ export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
                 size="sm"
                 px={4}
                 colorScheme="green">
-                {createArticle?.isPending ? <Spinner /> : `create`}
+                {createArticle?.isPending ? <Spinner /> : `Create`}
               </Button>
             </HStack>
           </ModalBody>

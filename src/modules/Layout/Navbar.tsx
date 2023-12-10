@@ -41,7 +41,7 @@ export default function Navbar() {
         </VStack>
       </HStack>
 
-      <HStack gap={4}>
+      <HStack gap={8}>
         <Link to="/">
           <HStack gap={1} cursor="pointer">
             <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">

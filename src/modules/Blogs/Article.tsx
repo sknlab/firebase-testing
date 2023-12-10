@@ -1,4 +1,4 @@
-import { Button, Center, Flex, HStack, Icon, Spinner, Text, VStack } from "@chakra-ui/react";
+import { Button, Center, Flex, HStack, Icon, Spinner, Text, VStack, useDisclosure } from "@chakra-ui/react";
 
 import { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -6,18 +6,20 @@ import { useParams } from "react-router-dom";
 import { getArticleQuery } from "../../hooks/Blogs.api";
 import { ArticleProps } from "../../types/blogs.types";
 import Layout from "../Layout/Layout";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import { EditArticleModal } from "./EditArticleModal";
 
 export default function Article() {
   const { id } = useParams();
   const [article, setArticle] = useState({} as ArticleProps);
+  const deleteDisclosure = useDisclosure();
+  const editDisclosure = useDisclosure();
 
   useEffect(() => {
     if (id) {
       getArticleQuery(id).then((res) => setArticle(res));
     }
-  }, [id]);
-
-  console.log(article);
+  }, [article]);
 
   return (
     <Layout>
@@ -40,28 +42,24 @@ export default function Article() {
               {article?.description}
             </Text>
           </VStack>
-          <ArticleActions />
+          <Flex gap={2}>
+            <Button variant="ghost" colorScheme="green" gap={2} onClick={editDisclosure.onOpen}>
+              <Text>Edit</Text>
+              <Icon as={FaEdit} color="green" />
+            </Button>
+            <Button variant="ghost" colorScheme="red" gap={2} onClick={deleteDisclosure.onOpen}>
+              <Text>Delete</Text>
+              <Icon as={FaTrash} color="red" />
+            </Button>
+          </Flex>
+          <EditArticleModal article={article} isOpen={editDisclosure.isOpen} onClose={editDisclosure.onClose} />
+          <ConfirmDeleteModal doc_id={article?.doc_id} isOpen={deleteDisclosure.isOpen} onClose={deleteDisclosure.onClose} />
         </HStack>
       ) : (
-        <Center>
+        <Center w="100%">
           <Spinner />
         </Center>
       )}
     </Layout>
   );
 }
-
-const ArticleActions = () => {
-  return (
-    <Flex gap={2}>
-      <Button variant="ghost" colorScheme="green" gap={2}>
-        <Text>Edit</Text>
-        <Icon as={FaEdit} color="green" />
-      </Button>
-      <Button variant="ghost" colorScheme="red" gap={2}>
-        <Text>Delete</Text>
-        <Icon as={FaTrash} color="red" />
-      </Button>
-    </Flex>
-  );
-};

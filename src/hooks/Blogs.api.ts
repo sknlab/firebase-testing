@@ -1,8 +1,8 @@
-import { addDoc, collection, doc, getDoc, query, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, query, updateDoc, where } from "firebase/firestore";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { db } from "../config/firebase";
-import { CreateArticleType } from "../types/blogs.types";
+import { ArticleProps, CreateArticleType } from "../types/blogs.types";
 
 const blogsRef = collection(db, "blogs");
 
@@ -27,7 +27,6 @@ export const getArticleQuery = async (doc_id: string) => {
 };
 
 export const useCreateArticle = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: CreateArticleType) => {
       const articleRef = await addDoc(blogsRef, {
@@ -41,8 +40,40 @@ export const useCreateArticle = () => {
     onError: (error) => {
       throw new Error(`${error}`);
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getBlogs"] });
+  });
+};
+
+export const useEditArticle = () => {
+  return useMutation({
+    mutationFn: async (data: ArticleProps) => {
+      const docRef = doc(db, "blogs", data?.doc_id);
+
+      const updateRef = await updateDoc(docRef, {
+        title: data.title,
+        description: data.description,
+      });
+
+      let response = getArticleQuery(data?.doc_id);
+
+      return response;
+    },
+    onError: (error) => {
+      throw new Error(`${error}`);
+    },
+  });
+};
+
+export const useDeleteArticle = () => {
+  return useMutation({
+    mutationFn: async (doc_id: string) => {
+      const docRef = doc(db, "blogs", doc_id);
+      await deleteDoc(docRef);
+      let response = getArticleQuery(doc_id);
+
+      return response;
+    },
+    onError: (error) => {
+      throw new Error(`${error}`);
     },
   });
 };

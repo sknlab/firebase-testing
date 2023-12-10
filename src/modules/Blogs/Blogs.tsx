@@ -1,4 +1,3 @@
-import { Spinner } from "@chakra-ui/react";
 import { onSnapshot } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -44,5 +43,9 @@ export default function Blogs() {
     };
   }, [user?.email]);
 
-  return <Layout>{data?.length > 0 ? <BlogsTable blogs={blogs} /> : <Spinner />}</Layout>;
+  return (
+    <Layout>
+      <BlogsTable blogs={blogs} />
+    </Layout>
+  );
 }
