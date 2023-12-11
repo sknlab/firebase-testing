@@ -17,8 +17,8 @@ import {
 } from "@chakra-ui/react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-import { useEditArticle } from "../../hooks/Blogs.api";
 import { ArticleProps } from "../../types/blogs.types";
+import { useEditArticle } from "../../hooks/Blogs.api";
 
 export const EditArticleModal = ({ article, isOpen, onClose }: { article: ArticleProps; isOpen: boolean; onClose: () => void }) => {
   const { doc_id, title, description } = article;
@@ -69,7 +69,7 @@ export const EditArticleModal = ({ article, isOpen, onClose }: { article: Articl
     <>
       <Modal isOpen={isOpen} onClose={onClose} size="3xl">
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent mx={3} py={5}>
           <ModalHeader>Write A Blog</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

@@ -12,8 +12,9 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+
 import { useDeleteArticle } from "../../hooks/Blogs.api";
+import { useNavigate } from "react-router-dom";
 
 export default function ConfirmDeleteModal({ doc_id, isOpen, onClose }: { doc_id: string; isOpen: boolean; onClose: () => void }) {
   const deleteArticle = useDeleteArticle();
@@ -43,7 +44,7 @@ export default function ConfirmDeleteModal({ doc_id, isOpen, onClose }: { doc_id
     <>
       <Modal isOpen={isOpen} onClose={onClose} size="3xl">
         <ModalOverlay />
-        <ModalContent alignItems="center">
+        <ModalContent mx={3} py={5} alignItems="center">
           <ModalHeader>
             <Text>Are you sure you want to delete</Text>
           </ModalHeader>

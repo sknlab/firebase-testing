@@ -1,18 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 
-import { ArticleProps } from "../../types/blogs.types";
-import { AuthContext } from "../../context/AuthContext";
-import BlogsTable from "./BlogsTable";
-import Layout from "../Layout/Layout";
-import { getBlogsQuery } from "../../hooks/Blogs.api";
 import { onSnapshot } from "firebase/firestore";
+import { AuthContext } from "../../context/AuthContext";
+import { getAllBlogsQuery } from "../../hooks/Blogs.api";
+import { ArticleProps } from "../../types/blogs.types";
+import Layout from "../Layout/Layout";
+import BlogsPreview from "./BlogsPreview";
 
-export default function Blogs() {
+export default function AllBlogs() {
   const { user } = useContext(AuthContext);
   const [blogs, setBlogs] = useState([] as ArticleProps[]);
 
   useEffect(() => {
-    const queryRef = getBlogsQuery(user?.email);
+    const queryRef = getAllBlogsQuery();
 
     const unsubscribe = onSnapshot(queryRef, (querySnapshot) => {
       const data: any[] = [];
@@ -33,7 +33,7 @@ export default function Blogs() {
 
   return (
     <Layout>
-      <BlogsTable blogs={blogs} />
+      <BlogsPreview blogs={blogs} />
     </Layout>
   );
 }

@@ -11,6 +11,11 @@
       "status": 200
     },
     {
+      "src": "/my-blogs",
+      "dest": "/my-blogs",
+      "status": 200
+    },
+    {
       "src": "/article/:id",
       "dest": "/article/:id",
       "status": 200
