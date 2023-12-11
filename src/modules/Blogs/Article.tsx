@@ -66,22 +66,22 @@ export default function Article() {
             </CardBody>
           </Card>
 
-          {/* {user?.email == article?.user_email && ( */}
-          <Stack position="absolute" top={0} right={0}>
-            <Flex gap={2}>
-              <Button variant="ghost" colorScheme="green" gap={2} onClick={editDisclosure.onOpen}>
-                <Text>Edit</Text>
-                <Icon as={FaEdit} color="green" />
-              </Button>
-              <Button variant="ghost" colorScheme="red" gap={2} onClick={deleteDisclosure.onOpen}>
-                <Text>Delete</Text>
-                <Icon as={FaTrash} color="red" />
-              </Button>
-            </Flex>
-            <EditArticleModal article={article} isOpen={editDisclosure.isOpen} onClose={editDisclosure.onClose} />
-            <ConfirmDeleteModal doc_id={article?.doc_id} isOpen={deleteDisclosure.isOpen} onClose={deleteDisclosure.onClose} />
-          </Stack>
-          {/* )} */}
+          {user?.email == article?.user_email && (
+            <Stack position="absolute" top={0} right={0}>
+              <Flex gap={2}>
+                <Button variant="ghost" colorScheme="green" gap={2} onClick={editDisclosure.onOpen}>
+                  <Text>Edit</Text>
+                  <Icon as={FaEdit} color="green" />
+                </Button>
+                <Button variant="ghost" colorScheme="red" gap={2} onClick={deleteDisclosure.onOpen}>
+                  <Text>Delete</Text>
+                  <Icon as={FaTrash} color="red" />
+                </Button>
+              </Flex>
+              <EditArticleModal article={article} isOpen={editDisclosure.isOpen} onClose={editDisclosure.onClose} />
+              <ConfirmDeleteModal doc_id={article?.doc_id} isOpen={deleteDisclosure.isOpen} onClose={deleteDisclosure.onClose} />
+            </Stack>
+          )}
         </HStack>
       ) : (
         <LoadingSpinner />
