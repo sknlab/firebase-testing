@@ -1,17 +1,16 @@
 import { Button, Center, Flex, HStack, Icon, Spinner, Text, VStack, useDisclosure } from "@chakra-ui/react";
-
 import { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+
 import { useParams } from "react-router-dom";
 import { getArticleQuery } from "../../hooks/Blogs.api";
-import { ArticleProps } from "../../types/blogs.types";
 import Layout from "../Layout/Layout";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import { EditArticleModal } from "./EditArticleModal";
 
 export default function Article() {
   const { id } = useParams();
-  const [article, setArticle] = useState({} as ArticleProps);
+  const [article, setArticle] = useState({} as any);
   const deleteDisclosure = useDisclosure();
   const editDisclosure = useDisclosure();
 

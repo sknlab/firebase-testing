@@ -1,23 +1,11 @@
-import { onSnapshot } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import { getBlogsQuery } from "../../hooks/Blogs.api";
-import { ArticleProps } from "../../types/blogs.types";
-import Layout from "../Layout/Layout";
-import BlogsTable from "./BlogsTable";
 
-const data = [
-  {
-    id: 1,
-    title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-    description: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-  },
-  {
-    id: 2,
-    title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-    description: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-  },
-];
+import { ArticleProps } from "../../types/blogs.types";
+import { AuthContext } from "../../context/AuthContext";
+import BlogsTable from "./BlogsTable";
+import Layout from "../Layout/Layout";
+import { getBlogsQuery } from "../../hooks/Blogs.api";
+import { onSnapshot } from "firebase/firestore";
 
 export default function Blogs() {
   const { user } = useContext(AuthContext);

@@ -1,10 +1,10 @@
 import { Button, Center, Icon, Stack, Text, useToast } from "@chakra-ui/react";
 
-import { useContext } from "react";
-import { FcGoogle } from "react-icons/fc";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { FcGoogle } from "react-icons/fc";
 import { handleAuthentication } from "../../hooks/Auth.api";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { dispatch } = useContext(AuthContext);
@@ -32,6 +32,7 @@ export default function Login() {
       isClosable: true,
     });
   };
+
   const handleLogin = () => {
     handleAuthentication()
       .then((res) => {

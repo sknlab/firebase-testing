@@ -48,7 +48,7 @@ export const useEditArticle = () => {
     mutationFn: async (data: ArticleProps) => {
       const docRef = doc(db, "blogs", data?.doc_id);
 
-      const updateRef = await updateDoc(docRef, {
+      await updateDoc(docRef, {
         title: data.title,
         description: data.description,
       });
