@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, Flex, Heading, Icon, Stack, StackDivider, Text, VStack } from "@chakra-ui/react";
+import { Box, Card, CardBody, Flex, Icon, Stack, StackDivider, Text, VStack } from "@chakra-ui/react";
 
 import { ArticleProps } from "../../types/blogs.types";
 import { FiArrowUpRight } from "react-icons/fi";
@@ -26,7 +26,7 @@ const BlogCard = ({ article }: { article: ArticleProps }) => {
 
   return (
     <Card>
-      <CardBody background="#f1f3f5" gap={4}>
+      <CardBody background="#fafafa" gap={4}>
         <Flex
           cursor="pointer"
           flexDir={{ base: "column", sm: "row" }}
@@ -48,19 +48,22 @@ const BlogCard = ({ article }: { article: ArticleProps }) => {
 
         <Stack divider={<StackDivider />} spacing="4">
           <Box>
-            <Heading size="xs" textTransform="uppercase">
+            <Text pt="2" fontSize="14px" fontWeight={500} letterSpacing={0.4} lineHeight="20px" textTransform="uppercase">
               title
-            </Heading>
+            </Text>
+            <Text pt="2" fontSize="16px" fontWeight={600} letterSpacing={0.4} lineHeight="20px" textTransform="capitalize">
+              {article?.title}
+            </Text>
+          </Box>
+          <Box>
+            <Text pt="2" fontSize="14px" fontWeight={500} letterSpacing={0.4} lineHeight="20px" textTransform="uppercase">
+              description
+            </Text>
+            <Text pt="2" fontSize="14px" fontWeight={500} letterSpacing={0.4} lineHeight="20px" textTransform="capitalize">
+              {article?.description}
+            </Text>
           </Box>
         </Stack>
-
-        <Text fontSize="16px" fontWeight={600} letterSpacing={0.4} lineHeight="20px" textTransform="capitalize">
-          {article?.title}
-        </Text>
-
-        <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
-          {article?.description}
-        </Text>
       </CardBody>
     </Card>
   );

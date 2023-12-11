@@ -16,13 +16,13 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import { FiEdit, FiHome, FiLogOut, FiMenu } from "react-icons/fi";
+import { FiAtSign, FiEdit, FiHome, FiLogOut, FiMenu } from "react-icons/fi";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
-import { AuthContext } from "../../context/AuthContext";
-import { CreateArticleModal } from "../Blogs/CreateArticleModal";
-import { handleLogout } from "../../hooks/Auth.api";
 import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { handleLogout } from "../../hooks/Auth.api";
+import { CreateArticleModal } from "../Blogs/CreateArticleModal";
 
 export default function Navbar() {
   const { user, dispatch } = useContext(AuthContext);
@@ -83,7 +83,7 @@ export default function Navbar() {
 
 const navItemsArray = [
   { id: 1, text: "All Blogs", icon: FiHome, path: "/" },
-  { id: 2, text: "My Blogs", icon: FiHome, path: "/my-blogs" },
+  { id: 2, text: "My Blogs", icon: FiAtSign, path: "/my-blogs" },
 ];
 
 const NavItemButton = ({ icon, text, path, ...rest }: { icon: any; text: string; path: string }) => {
@@ -97,10 +97,10 @@ const NavItemButton = ({ icon, text, path, ...rest }: { icon: any; text: string;
         };
       }}>
       <Button variant="ghost" gap={1} px={4} h="2em" color="inherit">
+        <Icon as={icon} />
         <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px" textTransform="uppercase">
           {text}
         </Text>
-        <Icon as={icon} />
       </Button>
     </NavLink>
   );
