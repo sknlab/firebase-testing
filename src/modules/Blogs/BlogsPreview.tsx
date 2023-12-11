@@ -1,10 +1,14 @@
 import { Box, Card, CardBody, Flex, Icon, Stack, StackDivider, Text, VStack } from "@chakra-ui/react";
 
-import { ArticleProps } from "../../types/blogs.types";
 import { FiArrowUpRight } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "../../components/Spinner/LoadingSpinner";
+import { ArticleProps } from "../../types/blogs.types";
 
 export default function BlogsPreview({ blogs }: { blogs: ArticleProps[] }) {
+  if (blogs?.length <= 0) {
+    return <LoadingSpinner />;
+  }
   return (
     <Stack>
       <VStack minH="80%" minW="100%">

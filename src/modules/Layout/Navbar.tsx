@@ -19,10 +19,10 @@ import {
 import { FiAtSign, FiEdit, FiHome, FiLogOut, FiMenu } from "react-icons/fi";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
-import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { handleLogout } from "../../hooks/Auth.api";
 import { CreateArticleModal } from "../Blogs/CreateArticleModal";
+import { handleLogout } from "../../hooks/Auth.api";
+import { useContext } from "react";
 
 export default function Navbar() {
   const { user, dispatch } = useContext(AuthContext);
@@ -46,7 +46,7 @@ export default function Navbar() {
   };
 
   return (
-    <Flex h="100%" w="100%" gap={4} alignItems="center" justifyContent="space-between" px={2}>
+    <Flex h="100%" w="100%" gap={4} alignItems="center" justifyContent="space-between" px={{ base: 2, lg: 46 }}>
       <Flex alignItems="center">
         <HStack gap={2} w={{ base: "8em", lg: "15em" }}>
           <Avatar src={user?.photoURL} />
