@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 
-import { onSnapshot } from "firebase/firestore";
-import { AuthContext } from "../../context/AuthContext";
-import { getUserBlogsQuery } from "../../hooks/Blogs.api";
 import { ArticleProps } from "../../types/blogs.types";
-import Layout from "../Layout/Layout";
+import { AuthContext } from "../../context/AuthContext";
 import BlogsPreview from "./BlogsPreview";
+import Layout from "../Layout/Layout";
+import { getUserBlogsQuery } from "../../hooks/Blogs.api";
+import { onSnapshot } from "firebase/firestore";
 
 export default function MyBlogs() {
   const { user } = useContext(AuthContext);

@@ -1,5 +1,6 @@
-import { Center, Spinner, Stack } from "@chakra-ui/react";
+import { Center, Stack } from "@chakra-ui/react";
 
+import LoadingSpinner from "../../components/Spinner/LoadingSpinner";
 import Navbar from "./Navbar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -10,7 +11,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Navbar />
         </Stack>
         <Stack w="inherit" minH="calc(100vh - 6.2em)" overflowY="scroll" p={4}>
-          {children ? children : <Spinner />}
+          {children ? children : <LoadingSpinner />}
         </Stack>
       </Center>
     </Stack>
