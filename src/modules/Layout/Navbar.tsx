@@ -1,7 +1,6 @@
 import {
   Avatar,
   Button,
-  Center,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -18,12 +17,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FiAtSign, FiEdit, FiHome, FiLogOut, FiMenu } from "react-icons/fi";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
-import { AuthContext } from "../../context/AuthContext";
-import { CreateArticleModal } from "../Blogs/CreateArticleModal";
-import { handleLogout } from "../../hooks/Auth.api";
 import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { handleLogout } from "../../hooks/Auth.api";
+import { CreateArticleModal } from "../Blogs/CreateArticleModal";
 
 export default function Navbar() {
   const { user, dispatch } = useContext(AuthContext);
