@@ -23,7 +23,7 @@ export default function AllBlogs() {
         });
       });
 
-      setBlogs(data);
+      setBlogs(data.reverse());
     });
 
     return () => {

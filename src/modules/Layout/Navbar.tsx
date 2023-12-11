@@ -1,6 +1,7 @@
 import {
   Avatar,
   Button,
+  Center,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
@@ -128,15 +129,10 @@ const MobileDrawer = ({ isOpen, onClose, handleSignOut }: { isOpen: boolean; onC
       <DrawerContent>
         <DrawerCloseButton />{" "}
         <DrawerBody>
-          <VStack>
-            <Link to="/">
-              <Button variant="ghost" gap={1} onClick={onClose}>
-                <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
-                  Home
-                </Text>
-                <Icon as={FiHome} />
-              </Button>
-            </Link>
+          <VStack h="100%" w="100%" alignItems="start" pl={4} justifyContent="center" gap={4}>
+            {navItemsArray.map((item) => (
+              <NavItemButton key={item?.id} icon={item?.icon} path={item?.path} text={item?.text} />
+            ))}
 
             <Button variant="ghost" onClick={handleSignOut}>
               <HStack gap={1}>
