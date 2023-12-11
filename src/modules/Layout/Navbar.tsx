@@ -1,6 +1,23 @@
-import { Avatar, Button, Flex, HStack, Icon, Text, VStack, useDisclosure, useToast } from "@chakra-ui/react";
-import { FiEdit, FiHome, FiLogOut } from "react-icons/fi";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Avatar,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerOverlay,
+  Flex,
+  HStack,
+  Icon,
+  IconButton,
+  Text,
+  VStack,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
+import { FiAtSign, FiEdit, FiHome, FiLogOut, FiMenu } from "react-icons/fi";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
@@ -9,6 +26,7 @@ import { CreateArticleModal } from "../Blogs/CreateArticleModal";
 
 export default function Navbar() {
   const { user, dispatch } = useContext(AuthContext);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -28,54 +46,114 @@ export default function Navbar() {
   };
 
   return (
-    <Flex h="100%" w="100%" gap={4} alignItems="center" justifyContent="space-between">
-      <HStack gap={2}>
-        <Avatar src={user?.photoURL} />
-        <VStack gap={1} align="start">
-          <Text fontSize="12px" fontWeight={400} letterSpacing={0.4} lineHeight="18px">
-            Welcome,
-          </Text>
-          <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px" textTransform="capitalize">
-            {user?.displayName}
-          </Text>
-        </VStack>
-      </HStack>
-
-      <HStack gap={8}>
-        <Link to="/">
-          <HStack gap={1} cursor="pointer">
-            <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
-              Home
+    <Flex h="100%" w="100%" gap={4} alignItems="center" justifyContent="space-between" px={2}>
+      <Flex alignItems="center">
+        <HStack gap={2} w={{ base: "8em", lg: "15em" }}>
+          <Avatar src={user?.photoURL} />
+          <VStack gap={1} align="start">
+            <Text fontSize="12px" display={{ base: "none", lg: "flex" }} fontWeight={400} letterSpacing={0.4} lineHeight="18px">
+              Welcome,
             </Text>
-            <Icon as={FiHome} />
-          </HStack>
-        </Link>
-        <WriteModal />
-      </HStack>
+            <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px" textTransform="capitalize">
+              {user?.displayName}
+            </Text>
+          </VStack>
+        </HStack>
+      </Flex>
 
-      <Button variant="ghost" onClick={handleSignOut}>
-        <HStack gap={1}>
+      <WriteModal />
+      <MobileDrawer isOpen={isOpen} onClose={onClose} handleSignOut={handleSignOut} />
+
+      <Flex alignItems="center" display={{ base: "none", lg: "flex" }}>
+        {navItemsArray.map((item) => (
+          <NavItemButton key={item?.id} icon={item?.icon} path={item?.path} text={item?.text} />
+        ))}
+        <Button variant="ghost" px={4} h="2em" onClick={handleSignOut}>
           <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
             Logout
           </Text>
           <Icon as={FiLogOut} mr={1} />
-        </HStack>
-      </Button>
+        </Button>
+      </Flex>
+
+      <IconButton display={{ base: "flex", lg: "none" }} variant="outline" aria-label="open menu" icon={<FiMenu />} onClick={onOpen} />
     </Flex>
   );
 }
+
+const navItemsArray = [
+  { id: 1, text: "All Blogs", icon: FiHome, path: "/" },
+  { id: 2, text: "My Blogs", icon: FiAtSign, path: "/my-blogs" },
+];
+
+const NavItemButton = ({ icon, text, path, ...rest }: { icon: any; text: string; path: string }) => {
+  return (
+    <NavLink
+      {...rest}
+      to={path}
+      style={({ isActive }) => {
+        return {
+          color: isActive ? "#3B82F6" : "inherit",
+        };
+      }}>
+      <Button variant="ghost" gap={1} px={4} h="2em" color="inherit">
+        <Icon as={icon} />
+        <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px" textTransform="uppercase">
+          {text}
+        </Text>
+      </Button>
+    </NavLink>
+  );
+};
 
 const WriteModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <HStack cursor="pointer" onClick={onOpen}>
+      <Button variant="ghost" px={4} h="2em" gap={1} onClick={onOpen}>
         <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
           Write
         </Text>
         <Icon as={FiEdit} mr={1} />
-      </HStack>
+      </Button>
       <CreateArticleModal isOpen={isOpen} onClose={onClose} />
     </>
+  );
+};
+
+const MobileDrawer = ({ isOpen, onClose, handleSignOut }: { isOpen: boolean; onClose: () => void; handleSignOut: () => void }) => {
+  return (
+    <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+      <DrawerOverlay />
+      <DrawerContent>
+        <DrawerCloseButton />{" "}
+        <DrawerBody>
+          <VStack>
+            <Link to="/">
+              <Button variant="ghost" gap={1} onClick={onClose}>
+                <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
+                  Home
+                </Text>
+                <Icon as={FiHome} />
+              </Button>
+            </Link>
+
+            <Button variant="ghost" onClick={handleSignOut}>
+              <HStack gap={1}>
+                <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
+                  Logout
+                </Text>
+                <Icon as={FiLogOut} mr={1} />
+              </HStack>
+            </Button>
+          </VStack>
+        </DrawerBody>
+        <DrawerFooter>
+          <Button variant="ghost" mr={3} onClick={onClose}>
+            Close
+          </Button>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 };

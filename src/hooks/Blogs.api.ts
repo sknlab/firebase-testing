@@ -1,13 +1,17 @@
+import { ArticleProps, CreateArticleType } from "../types/blogs.types";
 import { addDoc, collection, deleteDoc, doc, getDoc, query, updateDoc, where } from "firebase/firestore";
 
-import { useMutation } from "@tanstack/react-query";
 import { db } from "../config/firebase";
-import { ArticleProps, CreateArticleType } from "../types/blogs.types";
+import { useMutation } from "@tanstack/react-query";
 
 const blogsRef = collection(db, "blogs");
 
-export const getBlogsQuery = (user_email: string) => {
+export const getUserBlogsQuery = (user_email: string) => {
   return query(blogsRef, where("user_email", "==", user_email));
+};
+
+export const getAllBlogsQuery = () => {
+  return query(blogsRef);
 };
 
 export const getArticleQuery = async (doc_id: string) => {

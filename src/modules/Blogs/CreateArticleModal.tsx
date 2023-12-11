@@ -17,10 +17,10 @@ import {
 } from "@chakra-ui/react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 import { useCreateArticle } from "../../hooks/Blogs.api";
+import { useNavigate } from "react-router-dom";
 
 export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const navigate = useNavigate();
@@ -73,7 +73,7 @@ export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
     <>
       <Modal isOpen={isOpen} onClose={onClose} size="3xl">
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent mx={3} py={5}>
           <ModalHeader>Write A Blog</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
