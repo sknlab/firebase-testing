@@ -1,9 +1,11 @@
+import { addDoc, collection, deleteDoc, doc, getDoc, orderBy, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
 import { ArticleProps, CreateArticleType } from "../types/blogs.types";
-import { addDoc, collection, deleteDoc, doc, getDoc, query, updateDoc, where } from "firebase/firestore";
 
-import { db } from "../config/firebase";
 import { useMutation } from "@tanstack/react-query";
+import { format } from "date-fns";
+import { db } from "../config/firebase";
 
+const today = format(new Date(), "yyyy-MM-dd");
 const blogsRef = collection(db, "blogs");
 
 export const getUserBlogsQuery = (user_email: string) => {
@@ -11,7 +13,7 @@ export const getUserBlogsQuery = (user_email: string) => {
 };
 
 export const getAllBlogsQuery = () => {
-  return query(blogsRef);
+  return query(blogsRef, orderBy("createdAt"));
 };
 
 export const getArticleQuery = async (doc_id: string) => {
@@ -38,6 +40,8 @@ export const useCreateArticle = () => {
         user_email: data.user_email,
         title: data.title,
         description: data.description,
+        date: today,
+        createdAt: serverTimestamp(),
       });
       return articleRef;
     },

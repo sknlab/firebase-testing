@@ -3,6 +3,7 @@ export type CreateArticleType = {
   user_email: string;
   title: string;
   description: string;
+  date?: string;
 };
 
 export type ArticleProps = {
@@ -11,4 +12,6 @@ export type ArticleProps = {
   user_uid?: string;
   title: string;
   description: string;
+  createdAt?: string;
+  date?: string;
 };

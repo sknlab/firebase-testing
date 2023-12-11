@@ -17,10 +17,10 @@ import {
 } from "@chakra-ui/react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
-import { useCreateArticle } from "../../hooks/Blogs.api";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { useCreateArticle } from "../../hooks/Blogs.api";
 
 export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
     });
   };
 
-  const onSubmit = async (article: { title: string; description: string }) => {
+  const onSubmit = async (article: { title: string; description: string; date: string }) => {
     const data = { user_uid: user?.uid, user_email: user?.email, ...article };
     const res = await createArticle.mutateAsync(data);
     if (res) {
@@ -87,6 +87,7 @@ export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
               <Textarea isRequired {...register("description", { required: { value: true, message: "This field is required " } })} />
               {errors?.description && <FormErrorMessage>This field is required</FormErrorMessage>}
             </FormControl>
+
             <HStack justifyContent="flex-end" marginTop={4}>
               <Button size="sm" variant="outline" onClick={onClose} mr={2}>
                 Cancel
