@@ -1,0 +1,19 @@
+{
+  "routes": [
+    {
+      "src": "/[^.]+",
+      "dest": "/",
+      "status": 200
+    },
+    {
+      "src": "/login",
+      "dest": "/login",
+      "status": 200
+    },
+    {
+      "src": "/article/:id",
+      "dest": "/article/:id",
+      "status": 200
+    }
+  ]
+}
