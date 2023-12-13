@@ -53,27 +53,12 @@ export default function Article() {
           <Card minW="100%">
             <CardBody>
               <Stack divider={<StackDivider />} spacing="4">
-                <Box>
-                  <Heading size="xs" textTransform="uppercase">
-                    Document ID
-                  </Heading>
-                  <Text pt="2" fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
-                    {id}
-                  </Text>
-                </Box>
-                <Box>
-                  <Heading size="xs" textTransform="uppercase">
-                    Article by
-                  </Heading>
-                  <Text pt="2" fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
-                    {article?.user_email}
-                  </Text>
-                </Box>
-                <Box>
-                  <Heading size="xs" textTransform="uppercase">
-                    title
-                  </Heading>
-                  <Text pt="2" fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
+                <Box mt={{ base: "2em", md: 0 }}>
+                  <Flex gap={1} fontSize="12px" letterSpacing={0.4} lineHeight="20px" my={2} alignItems="center" color="#2563EB">
+                    <Text fontWeight={400}>By</Text>
+                    <Text fontWeight={400}>{article?.user_email}</Text>
+                  </Flex>
+                  <Text pt="2" fontSize="16px" fontWeight={600} letterSpacing={0.4} lineHeight="20px">
                     {article?.title}
                   </Text>
                 </Box>
@@ -91,14 +76,18 @@ export default function Article() {
           </Card>
 
           {user?.email == article?.user_email && (
-            <Stack position="absolute" top={0} right={0}>
+            <Stack position="absolute" top={1} right={1}>
               <Flex gap={2}>
                 <Button variant="ghost" colorScheme="green" gap={2} onClick={editDisclosure.onOpen}>
-                  <Text>Edit</Text>
+                  <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
+                    Edit
+                  </Text>
                   <Icon as={FaEdit} color="green" />
                 </Button>
                 <Button variant="ghost" colorScheme="red" gap={2} onClick={deleteDisclosure.onOpen}>
-                  <Text>Delete</Text>
+                  <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
+                    Delete
+                  </Text>
                   <Icon as={FaTrash} color="red" />
                 </Button>
               </Flex>
