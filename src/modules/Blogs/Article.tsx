@@ -1,14 +1,15 @@
 import { Box, Button, Card, CardBody, Flex, HStack, Heading, Icon, Stack, StackDivider, Text, useDisclosure } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { useContext, useEffect, useState } from "react";
 
-import { useParams } from "react-router-dom";
-import LoadingSpinner from "../../components/Spinner/LoadingSpinner";
 import { AuthContext } from "../../context/AuthContext";
-import { getArticleQuery } from "../../hooks/Blogs.api";
-import Layout from "../Layout/Layout";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import { EditArticleModal } from "./EditArticleModal";
+import Layout from "../Layout/Layout";
+import Likes from "./Likes";
+import LoadingSpinner from "../../components/Spinner/LoadingSpinner";
+import { getArticleQuery } from "../../hooks/Blogs.api";
+import { useParams } from "react-router-dom";
 
 export default function Article() {
   const { user } = useContext(AuthContext);
@@ -21,7 +22,11 @@ export default function Article() {
     if (id) {
       getArticleQuery(id).then((res) => setArticle(res));
     }
-  }, [article]);
+  }, [id]);
+
+  const handleUpdateArticle = (res: {} | undefined) => {
+    setArticle(res);
+  };
 
   return (
     <Layout>
@@ -64,6 +69,7 @@ export default function Article() {
                 </Box>
               </Stack>
             </CardBody>
+            <Likes likesArray={article?.likes} />
           </Card>
 
           {user?.email == article?.user_email && (
@@ -78,7 +84,12 @@ export default function Article() {
                   <Icon as={FaTrash} color="red" />
                 </Button>
               </Flex>
-              <EditArticleModal article={article} isOpen={editDisclosure.isOpen} onClose={editDisclosure.onClose} />
+              <EditArticleModal
+                article={article}
+                handleUpdateArticle={handleUpdateArticle}
+                isOpen={editDisclosure.isOpen}
+                onClose={editDisclosure.onClose}
+              />
               <ConfirmDeleteModal doc_id={article?.doc_id} isOpen={deleteDisclosure.isOpen} onClose={deleteDisclosure.onClose} />
             </Stack>
           )}

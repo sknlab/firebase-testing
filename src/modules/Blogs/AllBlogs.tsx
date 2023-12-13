@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
+import { getAllBlogsQuery } from "../../hooks/Blogs.api";
 
 import { onSnapshot } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
-import { getAllBlogsQuery } from "../../hooks/Blogs.api";
 import { ArticleProps } from "../../types/blogs.types";
 import Layout from "../Layout/Layout";
 import BlogsPreview from "./BlogsPreview";
