@@ -1,5 +1,5 @@
+import { AuthAction, AuthContextProviderProps, AuthState, InitialStateType } from "@/types/context.types";
 import { createContext, useEffect, useReducer } from "react";
-import { AuthAction, AuthContextProviderProps, AuthState, InitialStateType } from "../types/context.types";
 
 const initialUser: any | null = (() => {
   const item = sessionStorage.getItem("user");

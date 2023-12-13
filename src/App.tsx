@@ -1,13 +1,13 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React, { Suspense } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import Layout from "./modules/Layout/Layout";
-import Login from "./modules/Auth/Login";
-import PrivateRoute from "./modules/Auth/PrivateRoute";
+import Login from "@/modules/Auth/Login";
+import PrivateRoute from "@/modules/Auth/PrivateRoute";
+import Layout from "@/modules/Layout/Layout";
 
-const AllBlogs = React.lazy(() => import("./modules/Blogs/AllBlogs"));
-const MyBlogs = React.lazy(() => import("./modules/Blogs/MyBlogs"));
-const Article = React.lazy(() => import("./modules/Blogs/Article"));
+const AllBlogs = React.lazy(() => import("@/modules/Blogs/AllBlogs"));
+const MyBlogs = React.lazy(() => import("@/modules/Blogs/MyBlogs"));
+const Article = React.lazy(() => import("@/modules/Blogs/Article"));
 
 export default function App() {
   return (

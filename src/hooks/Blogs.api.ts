@@ -1,9 +1,9 @@
+import { ArticleProps, CreateArticleType } from "@/types/blogs.types";
 import { addDoc, collection, deleteDoc, doc, getDoc, orderBy, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
-import { ArticleProps, CreateArticleType } from "../types/blogs.types";
 
+import { db } from "@/config/firebase";
 import { useMutation } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { db } from "../config/firebase";
 
 const today = format(new Date(), "yyyy-MM-dd");
 const blogsRef = collection(db, "blogs");

@@ -1,6 +1,6 @@
 import { Center, Stack } from "@chakra-ui/react";
 
-import LoadingSpinner from "../../components/Spinner/LoadingSpinner";
+import LoadingSpinner from "@/components/Spinner/LoadingSpinner";
 import Navbar from "./Navbar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {

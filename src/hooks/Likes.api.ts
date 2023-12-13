@@ -1,8 +1,8 @@
 import { doc, updateDoc } from "firebase/firestore";
 
+import { db } from "@/config/firebase";
+import { LikesProps } from "@/types/blogs.types";
 import { useMutation } from "@tanstack/react-query";
-import { db } from "../config/firebase";
-import { LikesProps } from "../types/blogs.types";
 
 export const useUpdateLikesArticle = () => {
   return useMutation({

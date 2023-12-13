@@ -1,10 +1,10 @@
 import { Flex, IconButton, Text } from "@chakra-ui/react";
 
+import { AuthContext } from "@/context/AuthContext";
+import { useUpdateLikesArticle } from "@/hooks/Likes.api";
 import React from "react";
 import { AiFillLike } from "react-icons/ai";
 import { BiLike } from "react-icons/bi";
-import { AuthContext } from "../../context/AuthContext";
-import { useUpdateLikesArticle } from "../../hooks/Likes.api";
 
 export function CheckIfUserEmailIsInLikesArray({ newLikesArray, user_email }: { newLikesArray: string[]; user_email: string }) {
   return newLikesArray?.includes(user_email) ? true : false;

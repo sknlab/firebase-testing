@@ -1,15 +1,15 @@
 import { Box, Button, Card, CardBody, Flex, HStack, Heading, Icon, Stack, StackDivider, Text, useDisclosure } from "@chakra-ui/react";
-import { FaEdit, FaTrash } from "react-icons/fa";
 import { useContext, useEffect, useState } from "react";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
-import { AuthContext } from "../../context/AuthContext";
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
-import { EditArticleModal } from "./EditArticleModal";
-import Layout from "../Layout/Layout";
-import Likes from "./Likes";
-import LoadingSpinner from "../../components/Spinner/LoadingSpinner";
-import { getArticleQuery } from "../../hooks/Blogs.api";
+import LoadingSpinner from "@/components/Spinner/LoadingSpinner";
+import { AuthContext } from "@/context/AuthContext";
+import { getArticleQuery } from "@/hooks/Blogs.api";
+import ConfirmDeleteModal from "@/modules/Blogs/ConfirmDeleteModal";
+import Likes from "@/modules/Blogs/Likes";
+import Layout from "@/modules/Layout/Layout";
 import { useParams } from "react-router-dom";
+import { EditArticleModal } from "./EditArticleModal";
 
 export default function Article() {
   const { user } = useContext(AuthContext);
@@ -69,7 +69,7 @@ export default function Article() {
                 </Box>
               </Stack>
             </CardBody>
-            <Likes likesArray={article?.likes} />
+            <Likes likesArray={article?.likes} doc_id={article?.doc_id} />
           </Card>
 
           {user?.email == article?.user_email && (

@@ -17,8 +17,8 @@ import {
 } from "@chakra-ui/react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-import { useEditArticle } from "../../hooks/Blogs.api";
-import { ArticleProps } from "../../types/blogs.types";
+import { useEditArticle } from "@/hooks/Blogs.api";
+import { ArticleProps } from "@/types/blogs.types";
 
 export const EditArticleModal = ({
   article,

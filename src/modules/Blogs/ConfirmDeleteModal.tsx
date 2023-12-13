@@ -13,7 +13,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
-import { useDeleteArticle } from "../../hooks/Blogs.api";
+import { useDeleteArticle } from "@/hooks/Blogs.api";
 import { useNavigate } from "react-router-dom";
 
 export default function ConfirmDeleteModal({ doc_id, isOpen, onClose }: { doc_id: string; isOpen: boolean; onClose: () => void }) {
