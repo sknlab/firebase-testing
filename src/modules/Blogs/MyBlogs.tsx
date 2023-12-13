@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 
-import { ArticleProps } from "../../types/blogs.types";
-import { AuthContext } from "../../context/AuthContext";
-import BlogsPreview from "./BlogsPreview";
-import Layout from "../Layout/Layout";
-import { getUserBlogsQuery } from "../../hooks/Blogs.api";
+import { AuthContext } from "@/context/AuthContext";
+import { getUserBlogsQuery } from "@/hooks/Blogs.api";
+import BlogsPreview from "@/modules/Blogs/BlogsPreview";
+import Layout from "@/modules/Layout/Layout";
+import { ArticleProps } from "@/types/blogs.types";
 import { onSnapshot } from "firebase/firestore";
 
 export default function MyBlogs() {

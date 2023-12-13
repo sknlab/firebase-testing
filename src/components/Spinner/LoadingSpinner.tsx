@@ -1,7 +1,7 @@
 import { Center, Icon, Spinner, Text } from "@chakra-ui/react";
-import { FiArrowUp } from "react-icons/fi";
 
 import React from "react";
+import { FiArrowUp } from "react-icons/fi";
 
 export default function LoadingSpinner() {
   const [timeLapse, setTimeLapse] = React.useState(0);
@@ -16,15 +16,17 @@ export default function LoadingSpinner() {
     <Center gap={2}>
       {timeLapse === 0 ? (
         <>
-          <Spinner />
-          <Text>Loading data...</Text>
+          <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
+            Loading data...
+          </Text>
+          <Spinner size="sm" />
         </>
       ) : (
         <Center textTransform="uppercase" flexDir="column">
-          <Text fontSize="16px" fontWeight={500} letterSpacing={0.4} lineHeight="20px" my={2}>
+          <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
             Not Data found.
           </Text>
-          <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px" my={2} gap={2}>
+          <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
             You can create an article by clicking the Write button above. <Icon as={FiArrowUp} />
           </Text>
         </Center>

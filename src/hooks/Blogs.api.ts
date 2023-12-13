@@ -1,9 +1,11 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, orderBy, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
-import { ArticleProps, CreateArticleType } from "../types/blogs.types";
 
+import { ArticleProps, CreateArticleType } from "@/types/blogs.types";
+import { addDoc, collection, deleteDoc, doc, getDoc, orderBy, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
+
+import { db } from "@/config/firebase";
 import { useMutation } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { db } from "../config/firebase";
+
 
 const today = format(new Date(), "yyyy-MM-dd");
 const blogsRef = collection(db, "blogs");
@@ -28,7 +30,7 @@ export const getArticleQuery = async (doc_id: string) => {
     };
     return response;
   } else {
-    console.log("No such document!");
+    throw new Error("No such document!");
   }
 };
 

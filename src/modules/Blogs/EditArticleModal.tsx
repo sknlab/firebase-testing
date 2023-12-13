@@ -17,10 +17,20 @@ import {
 } from "@chakra-ui/react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-import { ArticleProps } from "../../types/blogs.types";
-import { useEditArticle } from "../../hooks/Blogs.api";
+import { useEditArticle } from "@/hooks/Blogs.api";
+import { ArticleProps } from "@/types/blogs.types";
 
-export const EditArticleModal = ({ article, isOpen, onClose }: { article: ArticleProps; isOpen: boolean; onClose: () => void }) => {
+export const EditArticleModal = ({
+  article,
+  handleUpdateArticle,
+  isOpen,
+  onClose,
+}: {
+  article: ArticleProps;
+  handleUpdateArticle: (res: {} | undefined) => void;
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
   const { doc_id, title, description } = article;
   const editArticle = useEditArticle();
   const toast = useToast();
@@ -55,12 +65,13 @@ export const EditArticleModal = ({ article, isOpen, onClose }: { article: Articl
 
   const onSubmit = async (fieldsData: { title: string; description: string }) => {
     const data = { doc_id, ...fieldsData };
-    await editArticle.mutateAsync(data);
+    const res = await editArticle.mutateAsync(data);
 
     if (editArticle?.isError) {
       handleError();
     } else {
       handleSuccess(doc_id);
+      handleUpdateArticle(res);
       onClose();
     }
   };

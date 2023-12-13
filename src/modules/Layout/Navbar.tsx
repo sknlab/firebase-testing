@@ -19,10 +19,12 @@ import {
 import { FiAtSign, FiEdit, FiHome, FiLogOut, FiMenu } from "react-icons/fi";
 import { NavLink, useNavigate } from "react-router-dom";
 
+
+import { AuthContext } from "@/context/AuthContext";
+import { handleLogout } from "@/hooks/Auth.api";
+import { CreateArticleModal } from "@/modules/Blogs/CreateArticleModal";
 import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import { handleLogout } from "../../hooks/Auth.api";
-import { CreateArticleModal } from "../Blogs/CreateArticleModal";
+
 
 export default function Navbar() {
   const { user, dispatch } = useContext(AuthContext);
@@ -72,7 +74,7 @@ export default function Navbar() {
           <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
             Logout
           </Text>
-          <Icon as={FiLogOut} mr={1} />
+          <Icon as={FiLogOut} mx={1} />
         </Button>
       </Flex>
 
@@ -126,7 +128,7 @@ const MobileDrawer = ({ isOpen, onClose, handleSignOut }: { isOpen: boolean; onC
     <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerCloseButton />{" "}
+        <DrawerCloseButton />
         <DrawerBody>
           <VStack h="100%" w="100%" alignItems="start" pl={4} justifyContent="center" gap={4}>
             {navItemsArray.map((item) => (

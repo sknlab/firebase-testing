@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 
+import { ArticleProps } from "@/types/blogs.types";
+import { AuthContext } from "@/context/AuthContext";
+import BlogsPreview from "@/modules/Blogs/BlogsPreview";
+import Layout from "@/modules/Layout/Layout";
+import { getAllBlogsQuery } from "@/hooks/Blogs.api";
 import { onSnapshot } from "firebase/firestore";
-import { AuthContext } from "../../context/AuthContext";
-import { getAllBlogsQuery } from "../../hooks/Blogs.api";
-import { ArticleProps } from "../../types/blogs.types";
-import Layout from "../Layout/Layout";
-import BlogsPreview from "./BlogsPreview";
 
 export default function AllBlogs() {
   const { user } = useContext(AuthContext);
@@ -25,7 +25,6 @@ export default function AllBlogs() {
 
       setBlogs(data.reverse());
     });
-
     return () => {
       unsubscribe();
     };

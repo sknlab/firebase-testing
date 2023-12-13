@@ -14,4 +14,5 @@ export type ArticleProps = {
   description: string;
   createdAt?: string;
   date?: string;
+  likes?: string[];
 };

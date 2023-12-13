@@ -1,8 +1,8 @@
 import { Button, Center, Icon, Stack, Text, useToast } from "@chakra-ui/react";
 
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "@/context/AuthContext";
 import { FcGoogle } from "react-icons/fc";
-import { handleAuthentication } from "../../hooks/Auth.api";
+import { handleAuthentication } from "@/hooks/Auth.api";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
