@@ -1,15 +1,16 @@
-import { Box, Button, Card, CardBody, Flex, HStack, Heading, Icon, Stack, StackDivider, Text, useDisclosure } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { Box, Button, Card, CardBody, Center, Flex, HStack, Heading, Icon, Stack, StackDivider, Text, useDisclosure } from "@chakra-ui/react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 
-import LoadingSpinner from "@/components/Spinner/LoadingSpinner";
 import { AuthContext } from "@/context/AuthContext";
-import { getArticleQuery } from "@/hooks/Blogs.api";
 import ConfirmDeleteModal from "@/modules/Blogs/ConfirmDeleteModal";
-import Likes from "@/modules/Blogs/Likes";
-import Layout from "@/modules/Layout/Layout";
-import { useParams } from "react-router-dom";
 import { EditArticleModal } from "./EditArticleModal";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import Layout from "@/modules/Layout/Layout";
+import Likes from "@/modules/Blogs/Likes";
+import LoadingSpinner from "@/components/Spinner/LoadingSpinner";
+import { getArticleQuery } from "@/hooks/Blogs.api";
 
 export default function Article() {
   const { user } = useContext(AuthContext);
@@ -28,8 +29,25 @@ export default function Article() {
     setArticle(res);
   };
 
+  const handleUpdateArticleLikes = (res: string[] | undefined) => {
+    setArticle({
+      ...article,
+      likes: res,
+    });
+  };
+
   return (
     <Layout>
+      <Center w="100%">
+        <Link to="/">
+          <HStack gap={2} color="#2563EB">
+            <Icon as={IoIosArrowRoundBack} />
+            <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
+              View all Posts
+            </Text>
+          </HStack>
+        </Link>
+      </Center>
       {article?.doc_id ? (
         <HStack alignItems="start" my={6} position="relative">
           <Card minW="100%">
@@ -69,7 +87,7 @@ export default function Article() {
                 </Box>
               </Stack>
             </CardBody>
-            <Likes likesArray={article?.likes} doc_id={article?.doc_id} />
+            <Likes likesArray={article?.likes} doc_id={article?.doc_id} handleUpdateArticleLikes={handleUpdateArticleLikes} />
           </Card>
 
           {user?.email == article?.user_email && (

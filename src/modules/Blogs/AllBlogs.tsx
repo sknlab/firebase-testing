@@ -25,7 +25,6 @@ export default function AllBlogs() {
 
       setBlogs(data.reverse());
     });
-
     return () => {
       unsubscribe();
     };

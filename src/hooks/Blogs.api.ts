@@ -28,7 +28,7 @@ export const getArticleQuery = async (doc_id: string) => {
     };
     return response;
   } else {
-    console.log("No such document!");
+    throw new Error("No such document!");
   }
 };
 

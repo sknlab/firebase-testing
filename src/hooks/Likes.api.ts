@@ -1,12 +1,12 @@
 import { doc, updateDoc } from "firebase/firestore";
 
 import { db } from "@/config/firebase";
-import { LikesProps } from "@/types/blogs.types";
+import { LikesApiProps } from "@/types/likes.types";
 import { useMutation } from "@tanstack/react-query";
 
 export const useUpdateLikesArticle = () => {
   return useMutation({
-    mutationFn: async (data: LikesProps) => {
+    mutationFn: async (data: LikesApiProps) => {
       const docRef = doc(db, "blogs", data.doc_id);
 
       await updateDoc(docRef, {

@@ -126,7 +126,7 @@ const MobileDrawer = ({ isOpen, onClose, handleSignOut }: { isOpen: boolean; onC
     <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerCloseButton />{" "}
+        <DrawerCloseButton />
         <DrawerBody>
           <VStack h="100%" w="100%" alignItems="start" pl={4} justifyContent="center" gap={4}>
             {navItemsArray.map((item) => (

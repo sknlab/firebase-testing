@@ -16,8 +16,3 @@ export type ArticleProps = {
   date?: string;
   likes?: string[];
 };
-
-export type LikesProps = {
-  array: string[];
-  doc_id: string;
-};

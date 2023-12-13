@@ -1,8 +1,8 @@
-import { Box, Card, CardBody, Flex, Icon, Stack, StackDivider, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Card, CardBody, Flex, Icon, Stack, StackDivider, Text, VStack } from "@chakra-ui/react";
 
-import LoadingSpinner from "@/components/Spinner/LoadingSpinner";
 import { ArticleProps } from "@/types/blogs.types";
 import { FiArrowUpRight } from "react-icons/fi";
+import LoadingSpinner from "@/components/Spinner/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 
 export default function BlogsPreview({ blogs }: { blogs: ArticleProps[] }) {
@@ -30,40 +30,34 @@ const BlogCard = ({ article }: { article: ArticleProps }) => {
 
   return (
     <Card>
-      <CardBody background="#fafafa" gap={4}>
+      <CardBody background="#fff" gap={4}>
         <Flex
           cursor="pointer"
           flexDir={{ base: "column", sm: "row" }}
           alignItems="center"
           justifyContent="space-between"
           onClick={() => handleView(article?.doc_id)}>
-          <Flex gap={1} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2} alignItems="center">
+          <Flex gap={1} fontSize="12px" letterSpacing={0.4} lineHeight="20px" my={2} alignItems="center" color="#2563EB">
             <Text fontWeight={400}>By</Text>
             <Text fontWeight={400}>{article?.user_email}</Text>
           </Flex>
 
-          <Flex alignItems="center">
-            <Text fontSize="16px" fontWeight={500} letterSpacing={0.4} lineHeight="20px" my={2}>
+          <Button variant="ghost" alignItems="center" color="#2563EB">
+            <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
               View
             </Text>
-            <Icon as={FiArrowUpRight} h="1.5em" w="1.5em" />
-          </Flex>
+            <Icon as={FiArrowUpRight} h="1em" w="1em" />
+          </Button>
         </Flex>
 
         <Stack divider={<StackDivider />} spacing="4">
           <Box>
-            <Text pt="2" fontSize="14px" fontWeight={500} letterSpacing={0.4} lineHeight="20px" textTransform="uppercase">
-              title
-            </Text>
-            <Text pt="2" fontSize="16px" fontWeight={600} letterSpacing={0.4} lineHeight="20px" textTransform="capitalize">
+            <Text pt="2" fontSize="16px" fontWeight={600} letterSpacing={-0.1} lineHeight="20px" textTransform="capitalize">
               {article?.title}
             </Text>
           </Box>
           <Box>
-            <Text pt="2" fontSize="14px" fontWeight={500} letterSpacing={0.4} lineHeight="20px" textTransform="uppercase">
-              description
-            </Text>
-            <Text pt="2" fontSize="14px" fontWeight={500} letterSpacing={0.4} lineHeight="20px" textTransform="capitalize">
+            <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
               {article?.description}
             </Text>
           </Box>
