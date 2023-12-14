@@ -14,4 +14,5 @@ export type Comment = {
   user_email?: string;
   user_uid?: string;
   likes?: string[];
+
 };
