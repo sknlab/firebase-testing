@@ -2,6 +2,7 @@ import { Button, FormControl, FormErrorMessage, FormLabel, HStack, Input, Modal,
 import { useEditComment } from "../../hooks/Comments.api";
 import { Comment } from "../../types/comments.types";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 interface CommentProps {
   isOpen: boolean;
@@ -9,15 +10,21 @@ interface CommentProps {
   currentComment: Comment;
 }
 
-export const EditCommentModal: React.FC<CommentProps> = ({ isOpen, onClose, currentComment }) => {
+export default function EditCommentModal({ isOpen, onClose, currentComment }: CommentProps) {
   const editComment = useEditComment();
   const toast = useToast();
   const { doc_id, comment } = currentComment;
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isDirty, isValid },
-  } = useForm({ mode: "all" });
+  } = useForm();
+  useEffect(() => {
+    if (currentComment) {
+      setValue("comment", currentComment.comment);
+    }
+  }, [currentComment, setValue]);
 
   const handleSuccess = (id: string | null | undefined) => {
     toast({
@@ -77,4 +84,4 @@ export const EditCommentModal: React.FC<CommentProps> = ({ isOpen, onClose, curr
       </ModalContent>
     </Modal>
   );
-};
+}
