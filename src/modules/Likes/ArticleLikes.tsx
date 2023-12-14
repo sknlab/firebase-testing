@@ -1,15 +1,15 @@
-import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { Center, Flex, IconButton, Text } from "@chakra-ui/react";
+import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 
 import { AuthContext } from "@/context/AuthContext";
 import { CheckIfUserEmailIsInLikesArray } from "@/helpers/likes.helpers";
+import { useUpdateLikesArticle } from "@/hooks/Likes.api";
 import { LikesComponentProps } from "@/types/likes.types";
 import React from "react";
-import { useUpdateLikesArticle } from "@/hooks/Likes.api";
 
 export default function ArticleLikes({ doc_id, likesArray, handleUpdateLikes }: LikesComponentProps) {
   const { user } = React.useContext(AuthContext);
-  let newLikesArray = likesArray;
+  let newLikesArray = likesArray ? [...likesArray] : [];
 
   let count = newLikesArray?.length;
   const isLike = CheckIfUserEmailIsInLikesArray({ newLikesArray, user_email: user?.email });

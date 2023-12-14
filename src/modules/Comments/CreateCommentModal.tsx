@@ -1,9 +1,23 @@
-import { Button, FormControl, FormErrorMessage, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Spinner, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  HStack,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Spinner,
+  useToast,
+} from "@chakra-ui/react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
-import { useContext } from "react";
-
 import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 import { useCreateComment } from "../../hooks/Comments.api";
 
 interface CreateCommentProps {
@@ -57,11 +71,11 @@ export const CreateCommentModal: React.FC<CreateCommentProps> = ({ isOpen, onClo
     if (res) {
       handleSuccess(res?.id);
       onClose();
+      reset({ comment: "" });
     }
     if (createComment?.isError) {
       handleError();
     }
-    reset();
   };
 
   return (
@@ -88,7 +102,12 @@ export const CreateCommentModal: React.FC<CreateCommentProps> = ({ isOpen, onClo
               <Button size="sm" variant="outline" onClick={onClose} mr={2}>
                 Cancel
               </Button>
-              <Button isDisabled={isDirty && !isValid} onClick={handleSubmit(onSubmit as SubmitHandler<FieldValues>)} size="sm" px={4} colorScheme="green">
+              <Button
+                isDisabled={isDirty && !isValid}
+                onClick={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
+                size="sm"
+                px={4}
+                colorScheme="green">
                 {createComment.isPending ? <Spinner /> : `Create`}
               </Button>
             </HStack>

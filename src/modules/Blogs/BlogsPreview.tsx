@@ -61,6 +61,10 @@ const BlogCard = ({ article }: { article: ArticleProps }) => {
               {article?.description}
             </Text>
           </Box>
+
+          <Text my={2} fontSize="12px" letterSpacing={0.4} lineHeight="20px" color="grey">
+            Posted on {article?.date}
+          </Text>
         </Stack>
       </CardBody>
     </Card>
