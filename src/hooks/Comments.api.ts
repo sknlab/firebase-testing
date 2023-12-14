@@ -1,13 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { CreateCommentType } from "../types/comments.types";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  query,
-  where,
-} from "firebase/firestore";
+import { CreateCommentType, Comment } from "../types/comments.types";
+import { addDoc, collection, deleteDoc, doc, query, updateDoc, where } from "firebase/firestore";
 import { format } from "date-fns";
 import { db } from "../config/firebase";
 
@@ -41,6 +34,21 @@ export const useDeleteComment = () => {
     mutationFn: async (doc_id: string) => {
       const docRef = doc(db, "comments", doc_id);
       return await deleteDoc(docRef);
+    },
+    onError: (error) => {
+      throw new Error(`${error}`);
+    },
+  });
+};
+
+export const useEditComment = () => {
+  return useMutation({
+    mutationFn: async (data: Comment) => {
+      const docRef = doc(db, "comments", data?.doc_id);
+
+      return await updateDoc(docRef, {
+        comment: data.comment,
+      });
     },
     onError: (error) => {
       throw new Error(`${error}`);
