@@ -1,16 +1,32 @@
-import { Button, FormControl, FormErrorMessage, FormLabel, HStack, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Spinner, useToast } from "@chakra-ui/react";
-import { useEditComment } from "../../hooks/Comments.api";
-import { Comment } from "../../types/comments.types";
+import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+  HStack,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Spinner,
+  useToast,
+} from "@chakra-ui/react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+
+import { useEditComment } from "@/hooks/Comments.api";
+import { CommentProps } from "@/types/comments.types";
 import { useEffect } from "react";
 
-interface CommentProps {
+interface EditCommentProps {
   isOpen: boolean;
   onClose: () => void;
-  currentComment: Comment;
+  currentComment: CommentProps;
 }
 
-export default function EditCommentModal({ isOpen, onClose, currentComment }: CommentProps) {
+export default function EditCommentModal({ isOpen, onClose, currentComment }: EditCommentProps) {
   const editComment = useEditComment();
   const toast = useToast();
   const { doc_id, comment } = currentComment;
@@ -69,14 +85,24 @@ export default function EditCommentModal({ isOpen, onClose, currentComment }: Co
         <ModalBody>
           <FormControl>
             <FormLabel>Comment</FormLabel>
-            <Input isRequired defaultValue={comment} {...register("comment", { required: { value: true, message: "This field is required" } })} type="text" />
+            <Input
+              isRequired
+              defaultValue={comment}
+              {...register("comment", { required: { value: true, message: "This field is required" } })}
+              type="text"
+            />
             {errors?.comment && <FormErrorMessage>This field is required</FormErrorMessage>}
           </FormControl>
           <HStack justifyContent="flex-end" marginTop={4}>
             <Button size="sm" variant="outline" onClick={onClose} mr={2}>
               Cancel
             </Button>
-            <Button isDisabled={isDirty && !isValid} onClick={handleSubmit(onSubmit as SubmitHandler<FieldValues>)} size="sm" px={4} colorScheme="green">
+            <Button
+              isDisabled={isDirty && !isValid}
+              onClick={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
+              size="sm"
+              px={4}
+              colorScheme="green">
               {editComment?.isPending ? <Spinner /> : `Update`}
             </Button>
           </HStack>
