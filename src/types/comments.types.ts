@@ -13,4 +13,5 @@ export type Comment = {
   doc_id: string;
   user_email?: string;
   user_uid?: string;
+  likes?: string[];
 };

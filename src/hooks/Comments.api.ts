@@ -1,6 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
-import { CreateCommentType, Comment } from "../types/comments.types";
 import { addDoc, collection, deleteDoc, doc, query, updateDoc, where } from "firebase/firestore";
+import { Comment, CreateCommentType } from "../types/comments.types";
+
+import { useMutation } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { db } from "../config/firebase";
 
@@ -15,6 +16,7 @@ export const useCreateComment = () => {
         user_email: data.user_email,
         comment: data.comment,
         date: today,
+        likes: [],
         article_id: data.article_id,
       });
       return commentRef;

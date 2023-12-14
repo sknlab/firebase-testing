@@ -1,9 +1,23 @@
-import { Stack, Text, AccordionPanel, AccordionIcon, AccordionButton, Box, Accordion, AccordionItem, Avatar, Flex, Button, useDisclosure } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Stack,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
-import { Comment } from "../../types/comments.types";
-import { getArticleCommentsQuery } from "../../hooks/Comments.api";
+
 import { onSnapshot } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
+import { getArticleCommentsQuery } from "../../hooks/Comments.api";
+import { Comment } from "../../types/comments.types";
 import { ConfirmDeleteComment } from "./ConfirmDeleteComment";
 import EditCommentModal from "./EditCommentModal";
 

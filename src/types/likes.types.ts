@@ -6,5 +6,5 @@ export type LikesApiProps = {
 export type LikesComponentProps = {
   doc_id: string;
   likesArray: string[];
-  handleUpdateArticleLikes: (res: string[] | undefined) => void;
+  handleUpdateLikes: (res: string[] | undefined) => void;
 };

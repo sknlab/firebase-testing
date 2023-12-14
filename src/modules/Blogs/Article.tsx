@@ -1,17 +1,17 @@
 import { Box, Button, Card, CardBody, Center, Flex, HStack, Heading, Icon, Stack, StackDivider, Text, useDisclosure } from "@chakra-ui/react";
-import { Suspense, lazy, useContext, useEffect, useState } from "react";
 import { FaComment, FaEdit, FaTrash } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
+import { Suspense, lazy, useContext, useEffect, useState } from "react";
 
-import LoadingSpinner from "@/components/Spinner/LoadingSpinner";
+import ArticleLikes from "@/modules/Likes/ArticleLikes";
 import { AuthContext } from "@/context/AuthContext";
-import { getArticleQuery } from "@/hooks/Blogs.api";
 import ConfirmDeleteModal from "@/modules/Blogs/ConfirmDeleteModal";
-import Likes from "@/modules/Blogs/Likes";
-import Layout from "@/modules/Layout/Layout";
-import { IoIosArrowRoundBack } from "react-icons/io";
 import { CreateCommentModal } from "../Comments/CreateCommentModal";
 import { EditArticleModal } from "./EditArticleModal";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import Layout from "@/modules/Layout/Layout";
+import LoadingSpinner from "@/components/Spinner/LoadingSpinner";
+import { getArticleQuery } from "@/hooks/Blogs.api";
 
 const Comments = lazy(() => import("../Comments/Comments"));
 
@@ -78,7 +78,7 @@ export default function Article() {
                 </Stack>
               </CardBody>
 
-              <Likes likesArray={article?.likes} doc_id={article?.doc_id} handleUpdateArticleLikes={handleUpdateArticleLikes} />
+              <ArticleLikes likesArray={article?.likes} doc_id={article?.doc_id} handleUpdateLikes={handleUpdateArticleLikes} />
             </Card>
             <Stack position="absolute" top={0} right={0}>
               <Flex gap={2}>
