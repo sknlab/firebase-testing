@@ -1,11 +1,11 @@
-import { Stack, Text, AccordionPanel, AccordionIcon, AccordionButton, Box, Accordion, AccordionItem, Avatar, Flex, Button, useDisclosure, Heading } from "@chakra-ui/react";
+import { Stack, Text, AccordionPanel, AccordionIcon, AccordionButton, Box, Accordion, AccordionItem, Avatar, Flex, Button, useDisclosure } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { Comment } from "../../types/comments.types";
 import { getArticleCommentsQuery } from "../../hooks/Comments.api";
 import { onSnapshot } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { ConfirmDeleteComment } from "./ConfirmDeleteComment";
-import { EditCommentModal } from "./EditCommentModal";
+import EditCommentModal from "./EditCommentModal";
 
 type CommentProps = {
   articleId: string;
@@ -16,6 +16,12 @@ export default function Comments({ articleId }: CommentProps) {
   const { user } = useContext(AuthContext);
   const deleteDisclosure = useDisclosure();
   const editDisclosure = useDisclosure();
+  const [selectedComment, setSelectedComment] = useState({} as Comment);
+
+  const handleEditClick = (comment: Comment) => {
+    setSelectedComment(comment);
+    editDisclosure.onOpen();
+  };
 
   useEffect(() => {
     if (articleId) {
@@ -76,19 +82,20 @@ export default function Comments({ articleId }: CommentProps) {
                 </Text>
                 {user?.email == comment?.user_email && (
                   <Flex alignItems="center">
-                    <Button colorScheme="facebook" variant="ghost" size="sm" onClick={editDisclosure.onOpen} fontWeight={400}>
+                    <Button colorScheme="facebook" variant="ghost" size="sm" onClick={() => handleEditClick(comment)} fontWeight={400}>
                       Edit
                     </Button>
-                    <Button colorScheme="red" variant="ghost" size="sm" onClick={deleteDisclosure.onOpen} fontWeight={400}>
+                    <Button colorScheme="red" variant="ghost" size="sm" fontWeight={400} onClick={deleteDisclosure.onOpen}>
                       Delete
                     </Button>
                     <ConfirmDeleteComment doc_id={comment?.doc_id} isOpen={deleteDisclosure.isOpen} onClose={deleteDisclosure.onClose} />
-                    <EditCommentModal currentComment={comment} isOpen={editDisclosure.isOpen} onClose={editDisclosure.onClose} />
                   </Flex>
                 )}
               </Flex>
             </AccordionPanel>
           ))}
+
+          <EditCommentModal currentComment={selectedComment} isOpen={editDisclosure.isOpen} onClose={editDisclosure.onClose} />
         </AccordionItem>
       </Accordion>
     </Stack>
