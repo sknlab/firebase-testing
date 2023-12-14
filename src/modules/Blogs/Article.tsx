@@ -1,17 +1,17 @@
-import { Box, Button, Card, CardBody, CardFooter, Center, Flex, HStack, Heading, Icon, Stack, StackDivider, Text, useDisclosure } from "@chakra-ui/react";
-import { FaEdit, FaTrash, FaComment } from "react-icons/fa";
+import { Box, Button, Card, CardBody, Center, Flex, HStack, Heading, Icon, Stack, StackDivider, Text, useDisclosure } from "@chakra-ui/react";
+import { Suspense, lazy, useContext, useEffect, useState } from "react";
+import { FaComment, FaEdit, FaTrash } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
-import { useContext, useEffect, useState, Suspense, lazy } from "react";
 
-import { AuthContext } from "@/context/AuthContext";
-import ConfirmDeleteModal from "@/modules/Blogs/ConfirmDeleteModal";
-import { EditArticleModal } from "./EditArticleModal";
-import { IoIosArrowRoundBack } from "react-icons/io";
-import Layout from "@/modules/Layout/Layout";
-import Likes from "@/modules/Blogs/Likes";
 import LoadingSpinner from "@/components/Spinner/LoadingSpinner";
+import { AuthContext } from "@/context/AuthContext";
 import { getArticleQuery } from "@/hooks/Blogs.api";
+import ConfirmDeleteModal from "@/modules/Blogs/ConfirmDeleteModal";
+import Likes from "@/modules/Blogs/Likes";
+import Layout from "@/modules/Layout/Layout";
+import { IoIosArrowRoundBack } from "react-icons/io";
 import { CreateCommentModal } from "../Comments/CreateCommentModal";
+import { EditArticleModal } from "./EditArticleModal";
 
 const Comments = lazy(() => import("../Comments/Comments"));
 
@@ -105,7 +105,12 @@ export default function Article() {
                         <Icon as={FaTrash} color="red" />
                       </Button>
                     </Flex>
-                    <EditArticleModal article={article} handleUpdateArticle={handleUpdateArticle} isOpen={editDisclosure.isOpen} onClose={editDisclosure.onClose} />
+                    <EditArticleModal
+                      article={article}
+                      handleUpdateArticle={handleUpdateArticle}
+                      isOpen={editDisclosure.isOpen}
+                      onClose={editDisclosure.onClose}
+                    />
                     <ConfirmDeleteModal doc_id={article?.doc_id} isOpen={deleteDisclosure.isOpen} onClose={deleteDisclosure.onClose} />
                   </>
                 )}
