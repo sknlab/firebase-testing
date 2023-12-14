@@ -5,6 +5,7 @@ import { getArticleCommentsQuery } from "../../hooks/Comments.api";
 import { onSnapshot } from "firebase/firestore";
 import { AuthContext } from "../../context/AuthContext";
 import { ConfirmDeleteComment } from "./ConfirmDeleteComment";
+import { EditCommentModal } from "./EditCommentModal";
 
 type CommentProps = {
   articleId: string;
@@ -82,6 +83,7 @@ export default function Comments({ articleId }: CommentProps) {
                       Delete
                     </Button>
                     <ConfirmDeleteComment doc_id={comment?.doc_id} isOpen={deleteDisclosure.isOpen} onClose={deleteDisclosure.onClose} />
+                    <EditCommentModal currentComment={comment} isOpen={editDisclosure.isOpen} onClose={editDisclosure.onClose} />
                   </Flex>
                 )}
               </Flex>
