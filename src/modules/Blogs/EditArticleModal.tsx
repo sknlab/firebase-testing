@@ -1,5 +1,6 @@
 import {
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -113,7 +114,13 @@ export const EditArticleModal = ({
                 size="sm"
                 px={4}
                 colorScheme="green">
-                {editArticle?.isPending ? <Spinner /> : `Update`}
+                {editArticle?.isPending ? (
+                  <Flex gap={2}>
+                    Update <Spinner size="sm" />
+                  </Flex>
+                ) : (
+                  `Update`
+                )}
               </Button>
             </HStack>
           </ModalBody>

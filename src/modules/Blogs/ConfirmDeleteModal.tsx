@@ -1,6 +1,7 @@
 import {
   Button,
   Center,
+  Flex,
   HStack,
   Modal,
   ModalBody,
@@ -8,6 +9,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  Spinner,
   Text,
   VStack,
   useToast,
@@ -24,7 +26,7 @@ export default function ConfirmDeleteModal({ doc_id, isOpen, onClose }: { doc_id
 
   const handleSuccess = () => {
     toast({
-      title: "Creation Success.",
+      title: "Deletion Success.",
       description: `Blog deleted successfully `,
       status: "success",
       duration: 3000,
@@ -35,9 +37,9 @@ export default function ConfirmDeleteModal({ doc_id, isOpen, onClose }: { doc_id
 
   const handleDelete = async () => {
     await deleteArticle.mutateAsync(doc_id);
-    navigate("/");
-    handleSuccess();
     onClose();
+    handleSuccess();
+    navigate("/");
   };
 
   return (
@@ -60,7 +62,13 @@ export default function ConfirmDeleteModal({ doc_id, isOpen, onClose }: { doc_id
                 Cancel
               </Button>
               <Button isDisabled={isPending} onClick={handleDelete} size="sm" px={4} colorScheme="red">
-                Delete
+                {isPending ? (
+                  <Flex gap={2}>
+                    Delete <Spinner size="sm" />
+                  </Flex>
+                ) : (
+                  `Delete`
+                )}
               </Button>
             </HStack>
           </ModalBody>
