@@ -18,3 +18,18 @@ export const useUpdateLikesArticle = () => {
     },
   });
 };
+
+export const useUpdateLikesComment = () => {
+  return useMutation({
+    mutationFn: async (data: LikesApiProps) => {
+      const docRef = doc(db, "comments", data.doc_id);
+
+      await updateDoc(docRef, {
+        likes: data.array,
+      });
+    },
+    onError: (error) => {
+      throw new Error(`${error}`);
+    },
+  });
+};

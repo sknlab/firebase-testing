@@ -6,11 +6,13 @@ export type CreateCommentType = {
   date?: string;
 };
 
-export type Comment = {
+export type CommentProps = {
   article_id?: string;
   comment: string;
   date?: string;
   doc_id: string;
   user_email?: string;
   user_uid?: string;
+  likes?: string[];
+
 };

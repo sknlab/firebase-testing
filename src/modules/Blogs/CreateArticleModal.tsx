@@ -37,7 +37,6 @@ export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
   } = useForm({ mode: "all" });
 
   const handleSuccess = (id: string | null | undefined) => {
-    reset();
     toast({
       title: "Creation Success.",
       description: `Blog ID ${id} created successfully `,
@@ -66,6 +65,10 @@ export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
       handleSuccess(res?.id);
       onClose();
       navigate(`/article/${res?.id}`);
+      reset({
+        title: "",
+        description: "",
+      });
     }
     if (createArticle?.isError) {
       handleError();

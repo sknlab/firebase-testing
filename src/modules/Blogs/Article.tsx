@@ -7,8 +7,8 @@ import LoadingSpinner from "@/components/Spinner/LoadingSpinner";
 import { AuthContext } from "@/context/AuthContext";
 import { getArticleQuery } from "@/hooks/Blogs.api";
 import ConfirmDeleteModal from "@/modules/Blogs/ConfirmDeleteModal";
-import Likes from "@/modules/Blogs/Likes";
 import Layout from "@/modules/Layout/Layout";
+import ArticleLikes from "@/modules/Likes/ArticleLikes";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { CreateCommentModal } from "../Comments/CreateCommentModal";
 import { EditArticleModal } from "./EditArticleModal";
@@ -75,12 +75,16 @@ export default function Article() {
                       {article?.description}
                     </Text>
                   </Box>
+                  <Flex alignItems="center" justifyContent="space-between">
+                    <Text fontSize="12px" letterSpacing={0.4} lineHeight="20px" color="grey">
+                      Posted on {article?.date}
+                    </Text>
+                    <ArticleLikes likesArray={article?.likes} doc_id={article?.doc_id} handleUpdateLikes={handleUpdateArticleLikes} />
+                  </Flex>
                 </Stack>
               </CardBody>
-
-              <Likes likesArray={article?.likes} doc_id={article?.doc_id} handleUpdateArticleLikes={handleUpdateArticleLikes} />
             </Card>
-            <Stack position="absolute" top={0} right={0}>
+            <Stack position="absolute" top={2} right={2}>
               <Flex gap={2}>
                 <Button variant="ghost" colorScheme="facebook" gap={2} onClick={commentDisclosure.onOpen}>
                   <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
