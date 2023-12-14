@@ -1,5 +1,6 @@
 import {
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -18,8 +19,8 @@ import {
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 
 import { AuthContext } from "@/context/AuthContext";
-import { useContext } from "react";
 import { useCreateArticle } from "@/hooks/Blogs.api";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
@@ -31,10 +32,12 @@ export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isDirty, isValid },
   } = useForm({ mode: "all" });
 
   const handleSuccess = (id: string | null | undefined) => {
+    reset();
     toast({
       title: "Creation Success.",
       description: `Blog ID ${id} created successfully `,
@@ -98,7 +101,13 @@ export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
                 size="sm"
                 px={4}
                 colorScheme="green">
-                {createArticle?.isPending ? <Spinner /> : `Create`}
+                {createArticle?.isPending ? (
+                  <Flex gap={2}>
+                    Create <Spinner size="sm" />
+                  </Flex>
+                ) : (
+                  `Create`
+                )}
               </Button>
             </HStack>
           </ModalBody>
