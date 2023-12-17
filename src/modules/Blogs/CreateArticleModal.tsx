@@ -21,10 +21,8 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { AuthContext } from "@/context/AuthContext";
 import { useCreateArticle } from "@/hooks/Blogs.api";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 
 export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const createArticle = useCreateArticle();
   const toast = useToast();
@@ -64,7 +62,6 @@ export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
     if (res) {
       handleSuccess(res?.id);
       onClose();
-      navigate(`/article/${res?.id}`);
       reset({
         title: "",
         description: "",

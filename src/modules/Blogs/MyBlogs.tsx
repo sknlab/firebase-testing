@@ -1,39 +1,25 @@
-import { useContext, useEffect, useState } from "react";
-
-import { AuthContext } from "@/context/AuthContext";
-import { getUserBlogsQuery } from "@/hooks/Blogs.api";
-import BlogsPreview from "@/modules/Blogs/BlogsPreview";
 import Layout from "@/modules/Layout/Layout";
-import { ArticleProps } from "@/types/blogs.types";
-import { onSnapshot } from "firebase/firestore";
+import React from "react";
+import TodaysBlog from "./TodaysBlog";
 
 export default function MyBlogs() {
-  const { user } = useContext(AuthContext);
-  const [blogs, setBlogs] = useState([] as ArticleProps[]);
+  let days = 10;
+  const today = new Date();
+  const array = [];
 
-  useEffect(() => {
-    const queryRef = getUserBlogsQuery(user?.email);
-
-    const unsubscribe = onSnapshot(queryRef, (querySnapshot) => {
-      const data: any[] = [];
-      querySnapshot.forEach((doc) => {
-        data.push({
-          ...doc.data(),
-          doc_id: doc.id,
-        });
-      });
-
-      setBlogs(data);
-    });
-
-    return () => {
-      unsubscribe();
-    };
-  }, [user?.email]);
+  for (let i = 0; i <= days; i++) {
+    const pastDate = new Date(today);
+    pastDate.setDate(pastDate.getDate() - i);
+    array.push(pastDate);
+  }
 
   return (
     <Layout>
-      <BlogsPreview blogs={blogs} />
+      {array.map((date) => (
+        <React.Fragment key={date.toString()}>
+          <TodaysBlog date={date} />
+        </React.Fragment>
+      ))}
     </Layout>
   );
 }
