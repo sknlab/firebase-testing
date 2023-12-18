@@ -1,8 +1,8 @@
 import Layout from "@/modules/Layout/Layout";
+import StandUp from "@/modules/StandUps/StandUp";
 import React from "react";
-import TodaysBlog from "./TodaysBlog";
 
-export default function MyBlogs() {
+export default function StandUps() {
   let days = 10;
   const today = new Date();
   const array = [];
@@ -12,12 +12,11 @@ export default function MyBlogs() {
     pastDate.setDate(pastDate.getDate() - i);
     array.push(pastDate);
   }
-
   return (
     <Layout>
       {array.map((date) => (
         <React.Fragment key={date.toString()}>
-          <TodaysBlog date={date} />
+          <StandUp date={date} />
         </React.Fragment>
       ))}
     </Layout>

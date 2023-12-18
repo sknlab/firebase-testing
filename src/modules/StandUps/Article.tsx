@@ -6,14 +6,14 @@ import { Link, useParams } from "react-router-dom";
 import LoadingSpinner from "@/components/Spinner/LoadingSpinner";
 import { AuthContext } from "@/context/AuthContext";
 import { getArticleQuery } from "@/hooks/Blogs.api";
-import ConfirmDeleteModal from "@/modules/Blogs/ConfirmDeleteModal";
+import { CreateCommentModal } from "@/modules/Comments/CreateCommentModal";
 import Layout from "@/modules/Layout/Layout";
 import ArticleLikes from "@/modules/Likes/ArticleLikes";
+import ConfirmDeleteModal from "@/modules/StandUps/ConfirmDeleteModal";
+import { EditArticleModal } from "@/modules/StandUps/EditArticleModal";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import { CreateCommentModal } from "../Comments/CreateCommentModal";
-import { EditArticleModal } from "./EditArticleModal";
 
-const Comments = lazy(() => import("../Comments/Comments"));
+const Comments = lazy(() => import("@/modules/Comments/Comments"));
 
 export default function Article() {
   const { user } = useContext(AuthContext);

@@ -16,6 +16,10 @@ export const getUserBlogsQuery = (user_email: string) => {
   return query(blogsRef, where("user_email", "==", user_email));
 };
 
+export const getAllBlogsByDateQuery = (date: string) => {
+  return query(blogsRef, where("date", "==", date));
+};
+
 export const getAllBlogsQuery = () => {
   return query(blogsRef, orderBy("createdAt"));
 };
