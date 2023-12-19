@@ -1,19 +1,23 @@
 import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Button, Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 
-import { ArticleProps } from "@/types/blogs.types";
 import { AuthContext } from "@/context/AuthContext";
+import { getAllBlogsByDateQuery } from "@/hooks/Blogs.api";
+import { ArticleProps } from "@/types/blogs.types";
+import { format } from "date-fns";
+import { onSnapshot } from "firebase/firestore";
 import { FaCheckCircle } from "react-icons/fa";
 import { FiArrowUpRight } from "react-icons/fi";
 import { MdBolt } from "react-icons/md";
-import WriteModal from "./WriteModal";
-import { format } from "date-fns";
-import { getAllBlogsByDateQuery } from "@/hooks/Blogs.api";
-import { onSnapshot } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import WriteModal from "./WriteModal";
 
 function CheckUserInBlogs({ user_email, blogs }: { user_email: string; blogs: ArticleProps[] }) {
   return blogs.some((blog) => blog.user_email === user_email);
+}
+
+function FilterBlogsByUser({ user_email, blogs }: { user_email: string; blogs: ArticleProps[] }) {
+  return blogs.filter((blog) => blog.user_email === user_email);
 }
 
 export default function StandUp({ date }: { date: Date }) {
@@ -25,6 +29,7 @@ export default function StandUp({ date }: { date: Date }) {
   const navigate = useNavigate();
 
   const isUser = CheckUserInBlogs({ user_email: user?.email, blogs });
+  const userBlogs = FilterBlogsByUser({ user_email: user?.email, blogs });
 
   const handleView = (doc_id: string) => {
     navigate(`/article/${doc_id}`);
@@ -76,7 +81,7 @@ export default function StandUp({ date }: { date: Date }) {
               You attended the stand-up.
             </Text>
           </Flex>
-          <Button variant="ghost" alignItems="center" color="inherit" onClick={() => handleView(blogs[0]?.doc_id)}>
+          <Button variant="ghost" alignItems="center" color="inherit" onClick={() => handleView(userBlogs[0]?.doc_id)}>
             <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" textTransform="capitalize">
               View
             </Text>
