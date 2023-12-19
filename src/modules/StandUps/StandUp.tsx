@@ -46,14 +46,13 @@ export default function StandUp({ date }: { date: Date }) {
           doc_id: doc.id,
         });
       });
-
       setBlogs(data);
     });
 
     return () => {
       unsubscribe();
     };
-  }, [user?.email]);
+  }, [dateShortFormat]);
 
   return (
     <Stack w={{ base: "98%", lg: "90%" }} mx="auto" mb={8} background="#fafafa">
@@ -93,7 +92,7 @@ export default function StandUp({ date }: { date: Date }) {
       <Accordion allowToggle>
         <AccordionItem>
           <h2>
-            <AccordionButton>
+            <AccordionButton background="white">
               <Text as="span" flex="1" textAlign="left" fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
                 {blogs?.length} team member(s) attended the stand-up.
               </Text>
