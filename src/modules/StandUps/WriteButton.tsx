@@ -1,9 +1,9 @@
-import { Button, Icon, Text, useDisclosure } from "@chakra-ui/react";
+import { Button, Icon, Text, useDisclosure } from '@chakra-ui/react';
 
-import { CreateArticleModal } from "@/modules/StandUps/CreateArticleModal";
-import { FaAngleRight } from "react-icons/fa";
+import { CreateStandUpModal } from '@/modules/StandUps/CreateModal';
+import { FaAngleRight } from 'react-icons/fa';
 
-export default function WriteModal() {
+export default function WriteButton() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -14,7 +14,7 @@ export default function WriteModal() {
         <Icon as={FaAngleRight} />
       </Button>
 
-      <CreateArticleModal isOpen={isOpen} onClose={onClose} />
+      <CreateStandUpModal isOpen={isOpen} onClose={onClose} />
     </>
   );
 }

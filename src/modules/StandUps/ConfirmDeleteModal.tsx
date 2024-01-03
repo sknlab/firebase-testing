@@ -15,19 +15,19 @@ import {
   useToast,
 } from '@chakra-ui/react';
 
-import { useDeleteArticle } from '@/hooks/Blogs.api';
+import { useDeleteStandUp } from '@/hooks/StandUps.api';
 import { useNavigate } from 'react-router-dom';
 
 export default function ConfirmDeleteModal({ doc_id, isOpen, onClose }: { doc_id: string; isOpen: boolean; onClose: () => void }) {
-  const deleteArticle = useDeleteArticle();
-  const { isPending } = deleteArticle;
+  const deleteStandUp = useDeleteStandUp();
+  const { isPending } = deleteStandUp;
   const toast = useToast();
   const navigate = useNavigate();
 
   const handleSuccess = () => {
     toast({
       title: 'Deletion Success.',
-      description: `Blog deleted successfully `,
+      description: `StandUp deleted successfully `,
       status: 'success',
       duration: 3000,
       position: 'top',
@@ -36,7 +36,7 @@ export default function ConfirmDeleteModal({ doc_id, isOpen, onClose }: { doc_id
   };
 
   const handleDelete = async () => {
-    await deleteArticle.mutateAsync(doc_id);
+    await deleteStandUp.mutateAsync(doc_id);
     onClose();
     handleSuccess();
     navigate('/');
@@ -54,7 +54,7 @@ export default function ConfirmDeleteModal({ doc_id, isOpen, onClose }: { doc_id
           <ModalBody>
             <Center w="100%" alignItems="center" justifyContent="center">
               <VStack>
-                <Text>Article with Document ID: {doc_id}</Text>
+                <Text>StandUp with Document ID: {doc_id}</Text>
               </VStack>
             </Center>
             <HStack justifyContent="space-between" marginTop={4}>

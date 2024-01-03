@@ -1,131 +1,133 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Button, Flex, Icon, Stack, Text } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { Box, Button, Card, CardBody, Center, Flex, HStack, Heading, Icon, Stack, StackDivider, Text, useDisclosure } from '@chakra-ui/react';
+import { Suspense, lazy, useContext, useEffect, useState } from 'react';
+import { FaComment, FaEdit, FaTrash } from 'react-icons/fa';
+import { Link, useParams } from 'react-router-dom';
 
-import { AuthContext } from "@/context/AuthContext";
-import { getAllBlogsByDateQuery } from "@/hooks/Blogs.api";
-import { ArticleProps } from "@/types/blogs.types";
-import { format } from "date-fns";
-import { onSnapshot } from "firebase/firestore";
-import { FaCheckCircle } from "react-icons/fa";
-import { FiArrowUpRight } from "react-icons/fi";
-import { MdBolt } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import WriteModal from "./WriteModal";
+import LoadingSpinner from '@/components/Spinner/LoadingSpinner';
+import { AuthContext } from '@/context/AuthContext';
+import { getStandUpQuery } from '@/hooks/StandUps.api';
+import { CreateCommentModal } from '@/modules/Comments/CreateCommentModal';
+import Layout from '@/modules/Layout/Layout';
+import StandUpLikes from '@/modules/Likes/StandUpLikes';
+import ConfirmDeleteModal from '@/modules/StandUps/ConfirmDeleteModal';
+import { EditStandUpModal } from '@/modules/StandUps/EditModal';
+import { IoIosArrowRoundBack } from 'react-icons/io';
 
-function CheckUserInBlogs({ user_email, blogs }: { user_email: string; blogs: ArticleProps[] }) {
-  return blogs.some((blog) => blog.user_email === user_email);
-}
+const Comments = lazy(() => import('@/modules/Comments/Comments'));
 
-function FilterBlogsByUser({ user_email, blogs }: { user_email: string; blogs: ArticleProps[] }) {
-  return blogs.filter((blog) => blog.user_email === user_email);
-}
-
-export default function StandUp({ date }: { date: Date }) {
+export default function StandUp() {
   const { user } = useContext(AuthContext);
-  const today = format(new Date(), "yyyy-MM-dd");
-  const dateShortFormat = format(date, "yyyy-MM-dd");
-  const dateLongFormat = format(date, "E, yyyy-MMMM-dd");
-  const [blogs, setBlogs] = useState([] as ArticleProps[]);
-  const navigate = useNavigate();
-
-  const isUser = CheckUserInBlogs({ user_email: user?.email, blogs });
-  const userBlogs = FilterBlogsByUser({ user_email: user?.email, blogs });
-
-  const handleView = (doc_id: string) => {
-    navigate(`/article/${doc_id}`);
-  };
+  const { id } = useParams();
+  const [standUp, setStandUp] = useState({} as any);
+  const deleteDisclosure = useDisclosure();
+  const editDisclosure = useDisclosure();
+  const commentDisclosure = useDisclosure();
 
   useEffect(() => {
-    const queryRef = getAllBlogsByDateQuery(dateShortFormat);
+    if (id) {
+      getStandUpQuery(id).then((res) => setStandUp(res));
+    }
+  }, [id]);
 
-    const unsubscribe = onSnapshot(queryRef, (querySnapshot) => {
-      const data: any[] = [];
-      querySnapshot.forEach((doc) => {
-        data.push({
-          ...doc.data(),
-          doc_id: doc.id,
-        });
-      });
-      setBlogs(data);
+  const handleUpdateStandUp = (res: {} | undefined) => {
+    setStandUp(res);
+  };
+
+  const handleUpdateStandUpLikes = (res: string[] | undefined) => {
+    setStandUp({
+      ...standUp,
+      likes: res,
     });
-
-    return () => {
-      unsubscribe();
-    };
-  }, [dateShortFormat]);
+  };
 
   return (
-    <Stack  w='100%' mx="auto" mb={8} background="#fafafa">
-      <Text fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
-        {dateLongFormat}
-      </Text>
-
-      {isUser === false && dateShortFormat === today && (
-        <Flex w="100%" h="3em" alignItems="center" justifyContent="space-between" color="red.500">
-          <Flex h="inherit" gap={1} alignItems="center" justifyContent="space-between">
-            <Icon as={MdBolt} boxSize={8} />
-            <Text fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
-              Attend today's stand-up {user?.displayName}
+    <Layout>
+      <Center w="100%">
+        <Link to="/">
+          <HStack gap={2} color="#2563EB">
+            <Icon as={IoIosArrowRoundBack} />
+            <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
+              View all Stand-ups
             </Text>
-          </Flex>
-          <WriteModal />
-        </Flex>
-      )}
-
-      {isUser === true && (
-        <Flex w="100%" h="3em" alignItems="center" justifyContent="space-between" color="green.500">
-          <Flex h="inherit" gap={1} alignItems="center" justifyContent="space-between">
-            <Icon as={FaCheckCircle} h="1em" w="1em" />
-            <Text fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2} color="green.500">
-              You attended the stand-up.
-            </Text>
-          </Flex>
-          <Button variant="ghost" alignItems="center" color="inherit" onClick={() => handleView(userBlogs[0]?.doc_id)}>
-            <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" textTransform="capitalize">
-              View
-            </Text>
-            <Icon as={FiArrowUpRight} h="1em" w="1em" />
-          </Button>
-        </Flex>
-      )}
-
-      <Accordion allowToggle>
-        <AccordionItem>
-          <h2>
-            <AccordionButton background="white">
-              <Text as="span" flex="1" textAlign="left" fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
-                {blogs?.length} team member(s) attended the stand-up.
-              </Text>
-              {blogs?.length > 0 && <AccordionIcon />}
-            </AccordionButton>
-          </h2>
-          <AccordionPanel>
-            {blogs?.map((blog) => (
-              <Flex
-                key={blog?.doc_id}
-                my={3}
-                w="100%"
-                h="3em"
-                borderRadius="md"
-                boxShadow="base"
-                background="white"
-                px={2}
-                alignItems="center"
-                justifyContent="space-between">
-                <Text fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
-                  {blog?.user_email} attended the stand-up.
-                </Text>
-                <Button variant="ghost" alignItems="center" color="#2563EB" onClick={() => handleView(blog?.doc_id)}>
-                  <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" textTransform="capitalize">
-                    View
+          </HStack>
+        </Link>
+      </Center>
+      {standUp?.doc_id ? (
+        <>
+          <HStack alignItems="start" my={6} position="relative">
+            <Card minW="100%">
+              <CardBody>
+                <Stack divider={<StackDivider />} spacing="4">
+                  <Box mt={{ base: '2em', md: 0 }}>
+                    <Flex gap={1} fontSize="12px" letterSpacing={0.4} lineHeight="20px" my={2} alignItems="center" color="#2563EB">
+                      <Text fontWeight={400}>By</Text>
+                      <Text fontWeight={400}>{standUp?.user_email}</Text>
+                    </Flex>
+                    <Text pt="2" fontSize="16px" fontWeight={600} letterSpacing={0.4} lineHeight="20px">
+                      {standUp?.title}
+                    </Text>
+                  </Box>
+                  <Box>
+                    <Heading size="xs" textTransform="uppercase">
+                      description
+                    </Heading>
+                    <Text pt="2" fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
+                      {standUp?.description}
+                    </Text>
+                  </Box>
+                  <Flex alignItems="center" justifyContent="space-between">
+                    <Text fontSize="12px" letterSpacing={0.4} lineHeight="20px" color="grey">
+                      Posted on {standUp?.date}
+                    </Text>
+                    <StandUpLikes likesArray={standUp?.likes} doc_id={standUp?.doc_id} handleUpdateLikes={handleUpdateStandUpLikes} />
+                  </Flex>
+                </Stack>
+              </CardBody>
+            </Card>
+            <Stack position="absolute" top={2} right={2}>
+              <Flex gap={2}>
+                <Button variant="ghost" colorScheme="facebook" gap={2} onClick={commentDisclosure.onOpen}>
+                  <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
+                    Comment
                   </Text>
-                  <Icon as={FiArrowUpRight} h="1em" w="1em" />
+                  <Icon as={FaComment} color="facebook" />
                 </Button>
+                <CreateCommentModal standUpId={id} isOpen={commentDisclosure.isOpen} onClose={commentDisclosure.onClose} />
+                {user?.email == standUp?.user_email && (
+                  <>
+                    <Flex gap={2}>
+                      <Button variant="ghost" colorScheme="green" gap={2} onClick={editDisclosure.onOpen}>
+                        <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
+                          Edit
+                        </Text>
+                        <Icon as={FaEdit} color="green" />
+                      </Button>
+                      <Button variant="ghost" colorScheme="red" gap={2} onClick={deleteDisclosure.onOpen}>
+                        <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
+                          Delete
+                        </Text>
+                        <Icon as={FaTrash} color="red" />
+                      </Button>
+                    </Flex>
+                    <EditStandUpModal
+                      standUp={standUp}
+                      handleUpdateStandUp={handleUpdateStandUp}
+                      isOpen={editDisclosure.isOpen}
+                      onClose={editDisclosure.onClose}
+                    />
+                    <ConfirmDeleteModal doc_id={standUp?.doc_id} isOpen={deleteDisclosure.isOpen} onClose={deleteDisclosure.onClose} />
+                  </>
+                )}
               </Flex>
-            ))}
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
-    </Stack>
+            </Stack>
+          </HStack>
+          <Suspense>
+            <Comments standUpId={standUp?.doc_id} />
+          </Suspense>
+        </>
+      ) : (
+        <LoadingSpinner />
+      )}
+    </Layout>
   );
 }

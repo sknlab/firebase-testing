@@ -1,9 +1,9 @@
 import { Button, Stack } from '@chakra-ui/react';
 
-import StandUp from '@/modules/StandUps/StandUp';
+import StandUpPreview from '@/modules/StandUps/StandUpPreview';
 import React from 'react';
 
-export default function StandUps() {
+export default function AllStandUps() {
   const [days, setDays] = React.useState(7);
   const today = new Date();
   const array = [];
@@ -22,7 +22,7 @@ export default function StandUps() {
     <Stack w="100%">
       {array.map((date) => (
         <React.Fragment key={date.toString()}>
-          <StandUp date={date} />
+          <StandUpPreview date={date} />
         </React.Fragment>
       ))}
       <Button onClick={handleLoadMore} colorScheme="facebook" variant="solid" w={{ base: '98%', lg: '90%' }} mx="auto" mt={2} mb={6}>

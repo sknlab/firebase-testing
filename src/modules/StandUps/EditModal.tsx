@@ -15,50 +15,50 @@ import {
   Spinner,
   Textarea,
   useToast,
-} from "@chakra-ui/react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+} from '@chakra-ui/react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
-import { useEditArticle } from "@/hooks/Blogs.api";
-import { ArticleProps } from "@/types/blogs.types";
+import { useEditStandUp } from '@/hooks/StandUps.api';
+import { StandUpProps } from '@/types/standUps.types';
 
-export const EditArticleModal = ({
-  article,
-  handleUpdateArticle,
+export const EditStandUpModal = ({
+  standUp,
+  handleUpdateStandUp,
   isOpen,
   onClose,
 }: {
-  article: ArticleProps;
-  handleUpdateArticle: (res: {} | undefined) => void;
+  standUp: StandUpProps;
+  handleUpdateStandUp: (res: {} | undefined) => void;
   isOpen: boolean;
   onClose: () => void;
 }) => {
-  const { doc_id, title, description } = article;
-  const editArticle = useEditArticle();
+  const { doc_id, title, description } = standUp;
+  const editStandUp = useEditStandUp();
   const toast = useToast();
 
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty, isValid },
-  } = useForm({ mode: "all" });
+  } = useForm({ mode: 'all' });
 
   const handleSuccess = (id: string | null | undefined) => {
     toast({
-      title: "Creation Success.",
-      description: `Blog ID ${id} created successfully `,
-      status: "success",
+      title: 'Creation Success.',
+      description: `StandUp ID ${id} created successfully `,
+      status: 'success',
       duration: 3000,
-      position: "top",
+      position: 'top',
       isClosable: true,
     });
   };
 
   const handleError = () => {
     toast({
-      title: "Error!",
-      description: "An error occurred",
-      status: "error",
-      position: "top",
+      title: 'Error!',
+      description: 'An error occurred',
+      status: 'error',
+      position: 'top',
       duration: 4000,
       isClosable: true,
     });
@@ -66,13 +66,13 @@ export const EditArticleModal = ({
 
   const onSubmit = async (fieldsData: { title: string; description: string }) => {
     const data = { doc_id, ...fieldsData };
-    const res = await editArticle.mutateAsync(data);
+    const res = await editStandUp.mutateAsync(data);
 
-    if (editArticle?.isError) {
+    if (editStandUp?.isError) {
       handleError();
     } else {
       handleSuccess(doc_id);
-      handleUpdateArticle(res);
+      handleUpdateStandUp(res);
       onClose();
     }
   };
@@ -82,7 +82,7 @@ export const EditArticleModal = ({
       <Modal isOpen={isOpen} onClose={onClose} size="3xl">
         <ModalOverlay />
         <ModalContent mx={3} py={5}>
-          <ModalHeader>Write A Blog</ModalHeader>
+          <ModalHeader>Write A StandUp</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
@@ -90,7 +90,7 @@ export const EditArticleModal = ({
               <Input
                 isRequired
                 defaultValue={title}
-                {...register("title", { required: { value: true, message: "This field is required " } })}
+                {...register('title', { required: { value: true, message: 'This field is required ' } })}
                 type="text"
               />
               {errors?.title && <FormErrorMessage>This field is required</FormErrorMessage>}
@@ -100,7 +100,7 @@ export const EditArticleModal = ({
               <Textarea
                 isRequired
                 defaultValue={description}
-                {...register("description", { required: { value: true, message: "This field is required " } })}
+                {...register('description', { required: { value: true, message: 'This field is required ' } })}
               />
               {errors?.description && <FormErrorMessage>This field is required</FormErrorMessage>}
             </FormControl>
@@ -113,8 +113,9 @@ export const EditArticleModal = ({
                 onClick={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
                 size="sm"
                 px={4}
-                colorScheme="green">
-                {editArticle?.isPending ? (
+                colorScheme="green"
+              >
+                {editStandUp?.isPending ? (
                   <Flex gap={2}>
                     Update <Spinner size="sm" />
                   </Flex>
