@@ -13,10 +13,10 @@ import {
   Text,
   VStack,
   useToast,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
-import { useDeleteArticle } from "@/hooks/Blogs.api";
-import { useNavigate } from "react-router-dom";
+import { useDeleteArticle } from '@/hooks/Blogs.api';
+import { useNavigate } from 'react-router-dom';
 
 export default function ConfirmDeleteModal({ doc_id, isOpen, onClose }: { doc_id: string; isOpen: boolean; onClose: () => void }) {
   const deleteArticle = useDeleteArticle();
@@ -26,11 +26,11 @@ export default function ConfirmDeleteModal({ doc_id, isOpen, onClose }: { doc_id
 
   const handleSuccess = () => {
     toast({
-      title: "Deletion Success.",
+      title: 'Deletion Success.',
       description: `Blog deleted successfully `,
-      status: "success",
+      status: 'success',
       duration: 3000,
-      position: "top",
+      position: 'top',
       isClosable: true,
     });
   };
@@ -39,7 +39,7 @@ export default function ConfirmDeleteModal({ doc_id, isOpen, onClose }: { doc_id
     await deleteArticle.mutateAsync(doc_id);
     onClose();
     handleSuccess();
-    navigate("/");
+    navigate('/');
   };
 
   return (

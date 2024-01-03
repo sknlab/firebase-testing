@@ -55,7 +55,7 @@ export default function StandUp({ date }: { date: Date }) {
   }, [dateShortFormat]);
 
   return (
-    <Stack w={{ base: "98%", lg: "90%" }} mx="auto" mb={8} background="#fafafa">
+    <Stack  w='100%' mx="auto" mb={8} background="#fafafa">
       <Text fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
         {dateLongFormat}
       </Text>

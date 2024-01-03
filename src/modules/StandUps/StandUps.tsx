@@ -1,7 +1,7 @@
-import { Button } from "@chakra-ui/react";
-import Layout from "@/modules/Layout/Layout";
-import React from "react";
-import StandUp from "@/modules/StandUps/StandUp";
+import { Button, Stack } from '@chakra-ui/react';
+
+import StandUp from '@/modules/StandUps/StandUp';
+import React from 'react';
 
 export default function StandUps() {
   const [days, setDays] = React.useState(7);
@@ -19,15 +19,15 @@ export default function StandUps() {
   }
 
   return (
-    <Layout>
+    <Stack w="100%">
       {array.map((date) => (
         <React.Fragment key={date.toString()}>
           <StandUp date={date} />
         </React.Fragment>
       ))}
-      <Button onClick={handleLoadMore} colorScheme="facebook" variant="solid" w={{ base: "98%", lg: "90%" }} mx="auto" mt={2} mb={6}>
+      <Button onClick={handleLoadMore} colorScheme="facebook" variant="solid" w={{ base: '98%', lg: '90%' }} mx="auto" mt={2} mb={6}>
         Load more
       </Button>
-    </Layout>
+    </Stack>
   );
 }
