@@ -2,14 +2,22 @@ import { ArticleProps, CreateArticleType } from "@/types/blogs.types";
 import { addDoc, collection, deleteDoc, doc, getDoc, orderBy, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
 
 import { db } from "@/config/firebase";
-import { format } from "date-fns";
 import { useMutation } from "@tanstack/react-query";
+import { format } from "date-fns";
 
 const today = format(new Date(), "yyyy-MM-dd");
 const blogsRef = collection(db, "blogs");
 
+export const getUserBlogsByDateQuery = (params: { date: string; user_email: string }) => {
+  return query(blogsRef, where("user_email", "==", params.user_email), where("date", "==", params.date));
+};
+
 export const getUserBlogsQuery = (user_email: string) => {
   return query(blogsRef, where("user_email", "==", user_email));
+};
+
+export const getAllBlogsByDateQuery = (date: string) => {
+  return query(blogsRef, where("date", "==", date));
 };
 
 export const getAllBlogsQuery = () => {
