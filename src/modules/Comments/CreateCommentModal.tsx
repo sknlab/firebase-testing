@@ -13,20 +13,20 @@ import {
   ModalOverlay,
   Spinner,
   useToast,
-} from "@chakra-ui/react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+} from '@chakra-ui/react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
-import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
-import { useCreateComment } from "../../hooks/Comments.api";
+import { AuthContext } from '@/context/AuthContext';
+import { useContext } from 'react';
+import { useCreateComment } from '@/hooks/Comments.api';
 
 interface CreateCommentProps {
   isOpen: boolean;
   onClose: () => void;
-  articleId: string | undefined;
+  standUpId: string | undefined;
 }
 
-export const CreateCommentModal: React.FC<CreateCommentProps> = ({ isOpen, onClose, articleId }) => {
+export const CreateCommentModal: React.FC<CreateCommentProps> = ({ isOpen, onClose, standUpId }) => {
   const { user } = useContext(AuthContext);
   const createComment = useCreateComment();
   const toast = useToast();
@@ -36,25 +36,25 @@ export const CreateCommentModal: React.FC<CreateCommentProps> = ({ isOpen, onClo
     handleSubmit,
     reset,
     formState: { errors, isDirty, isValid },
-  } = useForm({ mode: "all" });
+  } = useForm({ mode: 'all' });
 
   const handleSuccess = (id: string | null | undefined) => {
     toast({
-      title: "Creation Success.",
+      title: 'Creation Success.',
       description: `Comment ID ${id} created successfully `,
-      status: "success",
+      status: 'success',
       duration: 3000,
-      position: "top",
+      position: 'top',
       isClosable: true,
     });
   };
 
   const handleError = () => {
     toast({
-      title: "Error!",
-      description: "An error occurred",
-      status: "error",
-      position: "top",
+      title: 'Error!',
+      description: 'An error occurred',
+      status: 'error',
+      position: 'top',
       duration: 4000,
       isClosable: true,
     });
@@ -65,13 +65,13 @@ export const CreateCommentModal: React.FC<CreateCommentProps> = ({ isOpen, onClo
       user_uid: user?.uid,
       user_email: user?.email,
       ...comment,
-      article_id: articleId,
+      standUp_id: standUpId,
     };
     const res = await createComment.mutateAsync(data);
     if (res) {
       handleSuccess(res?.id);
       onClose();
-      reset({ comment: "" });
+      reset({ comment: '' });
     }
     if (createComment?.isError) {
       handleError();
@@ -90,8 +90,8 @@ export const CreateCommentModal: React.FC<CreateCommentProps> = ({ isOpen, onClo
               <FormLabel>Comment</FormLabel>
               <Input
                 isRequired
-                {...register("comment", {
-                  required: { value: true, message: "This field is required " },
+                {...register('comment', {
+                  required: { value: true, message: 'This field is required ' },
                 })}
                 type="text"
               />
@@ -107,7 +107,8 @@ export const CreateCommentModal: React.FC<CreateCommentProps> = ({ isOpen, onClo
                 onClick={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
                 size="sm"
                 px={4}
-                colorScheme="green">
+                colorScheme="green"
+              >
                 {createComment.isPending ? <Spinner /> : `Create`}
               </Button>
             </HStack>

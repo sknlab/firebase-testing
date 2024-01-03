@@ -1,7 +1,7 @@
-import { Center, Icon, Spinner, Text } from "@chakra-ui/react";
+import { Center, Icon, Spinner, Text } from '@chakra-ui/react';
 
-import React from "react";
-import { FiArrowUp } from "react-icons/fi";
+import React from 'react';
+import { FiArrowUp } from 'react-icons/fi';
 
 export default function LoadingSpinner() {
   const [timeLapse, setTimeLapse] = React.useState(0);
@@ -27,7 +27,7 @@ export default function LoadingSpinner() {
             Not Data found.
           </Text>
           <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
-            You can create an article by clicking the Write button above. <Icon as={FiArrowUp} />
+            You can create an standUp by clicking the Write button above. <Icon as={FiArrowUp} />
           </Text>
         </Center>
       )}

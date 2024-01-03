@@ -1,30 +1,30 @@
-import { Center, Flex, IconButton, Text } from "@chakra-ui/react";
-import { AiFillLike, AiOutlineLike } from "react-icons/ai";
+import { Center, Flex, IconButton, Text } from '@chakra-ui/react';
+import { AiFillLike, AiOutlineLike } from 'react-icons/ai';
 
-import { AuthContext } from "@/context/AuthContext";
-import { CheckIfUserEmailIsInLikesArray } from "@/helpers/likes.helpers";
-import { useUpdateLikesArticle } from "@/hooks/Likes.api";
-import { LikesComponentProps } from "@/types/likes.types";
-import React from "react";
+import { AuthContext } from '@/context/AuthContext';
+import { CheckIfUserEmailIsInLikesArray } from '@/helpers/likes.helpers';
+import { useUpdateLikesStandUp } from '@/hooks/Likes.api';
+import { LikesComponentProps } from '@/types/likes.types';
+import React from 'react';
 
-export default function ArticleLikes({ doc_id, likesArray, handleUpdateLikes }: LikesComponentProps) {
+export default function StandUpLikes({ doc_id, likesArray, handleUpdateLikes }: LikesComponentProps) {
   const { user } = React.useContext(AuthContext);
   let newLikesArray = likesArray ? [...likesArray] : [];
 
   let count = newLikesArray?.length;
   const isLike = CheckIfUserEmailIsInLikesArray({ newLikesArray, user_email: user?.email });
 
-  const updateLikesArticle = useUpdateLikesArticle();
+  const updateLikesStandUp = useUpdateLikesStandUp();
 
   const handleAddLike = async () => {
     const array = [...newLikesArray, user?.email];
-    await updateLikesArticle.mutateAsync({ array, doc_id });
+    await updateLikesStandUp.mutateAsync({ array, doc_id });
     handleUpdateLikes(array);
   };
 
   const handleRemoveLike = async () => {
     const array = newLikesArray.filter((email) => email !== user?.email);
-    await updateLikesArticle.mutateAsync({ array, doc_id });
+    await updateLikesStandUp.mutateAsync({ array, doc_id });
     handleUpdateLikes(array);
   };
 

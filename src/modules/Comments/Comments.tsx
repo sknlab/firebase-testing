@@ -1,17 +1,17 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Stack, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Stack, Text } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
-import { getArticleCommentsQuery } from "@/hooks/Comments.api";
-import { CommentProps } from "@/types/comments.types";
-import { onSnapshot } from "firebase/firestore";
-import Comment from "./Comment";
+import { getStandUpCommentsQuery } from '@/hooks/Comments.api';
+import { CommentProps } from '@/types/comments.types';
+import { onSnapshot } from 'firebase/firestore';
+import Comment from './Comment';
 
-export default function Comments({ articleId }: { articleId: string }) {
+export default function Comments({ standUpId }: { standUpId: string }) {
   const [comments, setComments] = useState([] as CommentProps[]);
 
   useEffect(() => {
-    if (articleId) {
-      const queryRef = getArticleCommentsQuery(articleId);
+    if (standUpId) {
+      const queryRef = getStandUpCommentsQuery(standUpId);
 
       const unsubscribe = onSnapshot(queryRef, (querySnapshot) => {
         const data: any[] = [];
@@ -29,7 +29,7 @@ export default function Comments({ articleId }: { articleId: string }) {
         unsubscribe();
       };
     }
-  }, [articleId]);
+  }, [standUpId]);
 
   return (
     <Stack minWidth="100%">

@@ -1,12 +1,12 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where, writeBatch } from "firebase/firestore";
-import { CommentProps, CreateCommentType } from "../types/comments.types";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where, writeBatch } from 'firebase/firestore';
+import { CommentProps, CreateCommentType } from '../types/comments.types';
 
-import { useMutation } from "@tanstack/react-query";
-import { format } from "date-fns";
-import { db } from "../config/firebase";
+import { useMutation } from '@tanstack/react-query';
+import { format } from 'date-fns';
+import { db } from '../config/firebase';
 
-const today = format(new Date(), "yyyy-MM-dd");
-const commentsRef = collection(db, "comments");
+const today = format(new Date(), 'yyyy-MM-dd');
+const commentsRef = collection(db, 'comments');
 
 export const useCreateComment = () => {
   return useMutation({
@@ -17,7 +17,7 @@ export const useCreateComment = () => {
         comment: data.comment,
         date: today,
         likes: [],
-        article_id: data.article_id,
+        standUp_id: data.standUp_id,
       });
       return commentRef;
     },
@@ -27,12 +27,12 @@ export const useCreateComment = () => {
   });
 };
 
-export const getArticleCommentsQuery = (article_id: string) => {
-  return query(commentsRef, where("article_id", "==", article_id));
+export const getStandUpCommentsQuery = (standUp_id: string) => {
+  return query(commentsRef, where('standUp_id', '==', standUp_id));
 };
 
-export const deleteCommentsForArticle = async (articleId: string) => {
-  const commentsQuery = query(commentsRef, where("article_id", "==", articleId));
+export const deleteCommentsForStandUp = async (standUpId: string) => {
+  const commentsQuery = query(commentsRef, where('standUp_id', '==', standUpId));
   const commentsSnapshot = await getDocs(commentsQuery);
   const batch = writeBatch(db);
   commentsSnapshot.forEach((commentDoc) => {
@@ -45,7 +45,7 @@ export const deleteCommentsForArticle = async (articleId: string) => {
 export const useDeleteComment = () => {
   return useMutation({
     mutationFn: async (doc_id: string) => {
-      const docRef = doc(db, "comments", doc_id);
+      const docRef = doc(db, 'comments', doc_id);
       return await deleteDoc(docRef);
     },
     onError: (error) => {
@@ -57,7 +57,7 @@ export const useDeleteComment = () => {
 export const useEditComment = () => {
   return useMutation({
     mutationFn: async (data: CommentProps) => {
-      const docRef = doc(db, "comments", data?.doc_id);
+      const docRef = doc(db, 'comments', data?.doc_id);
 
       return await updateDoc(docRef, {
         comment: data.comment,

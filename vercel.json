@@ -11,13 +11,13 @@
       "status": 200
     },
     {
-      "src": "/my-blogs",
-      "dest": "/my-blogs",
+      "src": "/my-standUps",
+      "dest": "/my-standUps",
       "status": 200
     },
     {
-      "src": "/article/:id",
-      "dest": "/article/:id",
+      "src": "/standUp/:id",
+      "dest": "/standUp/:id",
       "status": 200
     }
   ]

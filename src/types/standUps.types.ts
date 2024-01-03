@@ -1,4 +1,4 @@
-export type CreateArticleType = {
+export type CreateStandUpType = {
   user_uid: string;
   user_email: string;
   title: string;
@@ -6,7 +6,7 @@ export type CreateArticleType = {
   date?: string;
 };
 
-export type ArticleProps = {
+export type StandUpProps = {
   doc_id: string;
   user_email?: string;
   user_uid?: string;
