@@ -15,15 +15,21 @@ import {
   Spinner,
   Textarea,
   useToast,
-} from "@chakra-ui/react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+} from '@chakra-ui/react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
-import { AuthContext } from "@/context/AuthContext";
-import { useContext } from "react";
-import { useCreateArticle } from "@/hooks/Blogs.api";
-import { useNavigate } from "react-router-dom";
+import { AuthContext } from '@/context/AuthContext';
+import { useContext } from 'react';
+import { useCreateArticle } from '@/hooks/Blogs.api';
+import { useNavigate } from 'react-router-dom';
 
-export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+export const CreateArticleModal = ({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
   const { user } = useContext(AuthContext);
   const createArticle = useCreateArticle();
   const toast = useToast();
@@ -34,39 +40,43 @@ export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
     handleSubmit,
     reset,
     formState: { errors, isDirty, isValid },
-  } = useForm({ mode: "all" });
+  } = useForm({ mode: 'all' });
 
   const handleSuccess = (id: string | null | undefined) => {
     toast({
-      title: "Creation Success.",
+      title: 'Creation Success.',
       description: `Blog ID ${id} created successfully `,
-      status: "success",
+      status: 'success',
       duration: 3000,
-      position: "top",
+      position: 'top',
       isClosable: true,
     });
   };
 
   const handleError = () => {
     toast({
-      title: "Error!",
-      description: "An error occurred",
-      status: "error",
-      position: "top",
+      title: 'Error!',
+      description: 'An error occurred',
+      status: 'error',
+      position: 'top',
       duration: 4000,
       isClosable: true,
     });
   };
 
-  const onSubmit = async (article: { title: string; description: string; date: string }) => {
+  const onSubmit = async (article: {
+    title: string;
+    description: string;
+    date: string;
+  }) => {
     const data = { user_uid: user?.uid, user_email: user?.email, ...article };
     const res = await createArticle.mutateAsync(data);
     if (res) {
       handleSuccess(res?.id);
       navigate(`/`);
       reset({
-        title: "",
-        description: "",
+        title: '',
+        description: '',
       });
 
       onClose();
@@ -86,13 +96,28 @@ export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
           <ModalBody>
             <FormControl>
               <FormLabel>Title</FormLabel>
-              <Input isRequired {...register("title", { required: { value: true, message: "This field is required " } })} type="text" />
-              {errors?.title && <FormErrorMessage>This field is required</FormErrorMessage>}
+              <Input
+                isRequired
+                {...register('title', {
+                  required: { value: true, message: 'This field is required ' },
+                })}
+                type="text"
+              />
+              {errors?.title && (
+                <FormErrorMessage>This field is required</FormErrorMessage>
+              )}
             </FormControl>
             <FormControl>
               <FormLabel>Description</FormLabel>
-              <Textarea isRequired {...register("description", { required: { value: true, message: "This field is required " } })} />
-              {errors?.description && <FormErrorMessage>This field is required</FormErrorMessage>}
+              <Textarea
+                isRequired
+                {...register('description', {
+                  required: { value: true, message: 'This field is required ' },
+                })}
+              />
+              {errors?.description && (
+                <FormErrorMessage>This field is required</FormErrorMessage>
+              )}
             </FormControl>
 
             <HStack justifyContent="flex-end" marginTop={4}>
@@ -104,7 +129,8 @@ export const CreateArticleModal = ({ isOpen, onClose }: { isOpen: boolean; onClo
                 onClick={handleSubmit(onSubmit as SubmitHandler<FieldValues>)}
                 size="sm"
                 px={4}
-                colorScheme="green">
+                colorScheme="green"
+              >
                 {createArticle?.isPending ? (
                   <Flex gap={2}>
                     Create <Spinner size="sm" />
