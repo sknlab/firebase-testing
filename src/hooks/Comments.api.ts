@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where, writeBatch } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, query, updateDoc, where } from "firebase/firestore";
 import { CommentProps, CreateCommentType } from "../types/comments.types";
 
 import { useMutation } from "@tanstack/react-query";
@@ -29,17 +29,6 @@ export const useCreateComment = () => {
 
 export const getArticleCommentsQuery = (article_id: string) => {
   return query(commentsRef, where("article_id", "==", article_id));
-};
-
-export const deleteCommentsForArticle = async (articleId: string) => {
-  const commentsQuery = query(commentsRef, where("article_id", "==", articleId));
-  const commentsSnapshot = await getDocs(commentsQuery);
-  const batch = writeBatch(db);
-  commentsSnapshot.forEach((commentDoc) => {
-    const commentDocRef = doc(commentsRef, commentDoc.id);
-    batch.delete(commentDocRef);
-  });
-  await batch.commit();
 };
 
 export const useDeleteComment = () => {

@@ -1,19 +1,19 @@
 import { Box, Button, Card, CardBody, Center, Flex, HStack, Heading, Icon, Stack, StackDivider, Text, useDisclosure } from "@chakra-ui/react";
+import { Suspense, lazy, useContext, useEffect, useState } from "react";
 import { FaComment, FaEdit, FaTrash } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
-import { Suspense, lazy, useContext, useEffect, useState } from "react";
 
-import ArticleLikes from "@/modules/Likes/ArticleLikes";
-import { AuthContext } from "@/context/AuthContext";
-import ConfirmDeleteModal from "@/modules/StandUps/ConfirmDeleteModal";
-import { CreateCommentModal } from "@/modules/Comments/CreateCommentModal";
-import { EditArticleModal } from "@/modules/StandUps/EditArticleModal";
-import { IoIosArrowRoundBack } from "react-icons/io";
-import Layout from "@/modules/Layout/Layout";
 import LoadingSpinner from "@/components/Spinner/LoadingSpinner";
+import { AuthContext } from "@/context/AuthContext";
 import { getArticleQuery } from "@/hooks/Blogs.api";
+import ConfirmDeleteModal from "@/modules/Blogs/ConfirmDeleteModal";
+import Layout from "@/modules/Layout/Layout";
+import ArticleLikes from "@/modules/Likes/ArticleLikes";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { CreateCommentModal } from "../Comments/CreateCommentModal";
+import { EditArticleModal } from "./EditArticleModal";
 
-const Comments = lazy(() => import("@/modules/Comments/Comments"));
+const Comments = lazy(() => import("../Comments/Comments"));
 
 export default function Article() {
   const { user } = useContext(AuthContext);
@@ -47,7 +47,7 @@ export default function Article() {
           <HStack gap={2} color="#2563EB">
             <Icon as={IoIosArrowRoundBack} />
             <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
-              View all Stand-ups
+              View all Posts
             </Text>
           </HStack>
         </Link>
