@@ -3,7 +3,9 @@ import { addDoc, collection, deleteDoc, doc, getDoc, orderBy, query, serverTimes
 
 import { db } from "@/config/firebase";
 import { useMutation } from "@tanstack/react-query";
+import { deleteCommentsForArticle } from "./Comments.api";
 import { format } from "date-fns";
+
 
 const today = format(new Date(), "yyyy-MM-dd");
 const blogsRef = collection(db, "blogs");
@@ -84,6 +86,7 @@ export const useDeleteArticle = () => {
   return useMutation({
     mutationFn: async (doc_id: string) => {
       const docRef = doc(db, "blogs", doc_id);
+      await deleteCommentsForArticle(doc_id);
       await deleteDoc(docRef);
     },
     onError: (error) => {
