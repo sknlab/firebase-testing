@@ -1,16 +1,33 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Button, Flex, Icon, Stack, Text } from '@chakra-ui/react';
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerOverlay,
+  Flex,
+  Icon,
+  Stack,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { useContext, useEffect, useState } from 'react';
 
 import { AuthContext } from '@/context/AuthContext';
 import { getAllStandUpsByDateQuery } from '@/hooks/StandUps.api';
+import StandUp from '@/modules/StandUps/StandUp';
 import WriteButton from '@/modules/StandUps/WriteButton';
 import { StandUpProps } from '@/types/standUps.types';
 import { format } from 'date-fns';
 import { onSnapshot } from 'firebase/firestore';
 import { FaCheckCircle } from 'react-icons/fa';
-import { FiArrowUpRight } from 'react-icons/fi';
+import { FiChevronRight } from 'react-icons/fi';
 import { MdBolt } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
 
 function CheckUserInStandUps({ user_email, standUps }: { user_email: string; standUps: StandUpProps[] }) {
   return standUps.some((standUp) => standUp.user_email === user_email);
@@ -26,14 +43,9 @@ export default function StandUpPreview({ date }: { date: Date }) {
   const dateShortFormat = format(date, 'yyyy-MM-dd');
   const dateLongFormat = format(date, 'E, yyyy-MMMM-dd');
   const [standUps, setStandUps] = useState([] as StandUpProps[]);
-  const navigate = useNavigate();
 
   const isUser = CheckUserInStandUps({ user_email: user?.email, standUps });
   const userStandUps = FilterStandUpsByUser({ user_email: user?.email, standUps });
-
-  const handleView = (doc_id: string) => {
-    navigate(`/standUp/${doc_id}`);
-  };
 
   useEffect(() => {
     const queryRef = getAllStandUpsByDateQuery(dateShortFormat);
@@ -80,12 +92,7 @@ export default function StandUpPreview({ date }: { date: Date }) {
               You attended the stand-up.
             </Text>
           </Flex>
-          <Button variant="ghost" alignItems="center" color="inherit" onClick={() => handleView(userStandUps[0]?.doc_id)}>
-            <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" textTransform="capitalize">
-              View
-            </Text>
-            <Icon as={FiArrowUpRight} h="1em" w="1em" />
-          </Button>
+          <ViewStandUpButton standUp={userStandUps[0]} />
         </Flex>
       )}
 
@@ -116,12 +123,7 @@ export default function StandUpPreview({ date }: { date: Date }) {
                 <Text fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
                   {standUp?.user_email} attended the stand-up.
                 </Text>
-                <Button variant="ghost" alignItems="center" color="#2563EB" onClick={() => handleView(standUp?.doc_id)}>
-                  <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" textTransform="capitalize">
-                    View
-                  </Text>
-                  <Icon as={FiArrowUpRight} h="1em" w="1em" />
-                </Button>
+                <ViewStandUpButton standUp={standUp} />
               </Flex>
             ))}
           </AccordionPanel>
@@ -130,3 +132,26 @@ export default function StandUpPreview({ date }: { date: Date }) {
     </Stack>
   );
 }
+
+const ViewStandUpButton = ({ standUp }: { standUp: StandUpProps }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  console.log(standUp);
+  return (
+    <>
+      <Button variant="solid" alignItems="center" color="#2563EB" onClick={onOpen} colorScheme="gray">
+        <Icon as={FiChevronRight} h="1em" w="1em" />
+      </Button>
+
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={{ base: 'full', lg: 'xl' }}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+
+          <DrawerBody my={2}>
+            <StandUp data={standUp} />
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    </>
+  );
+};
