@@ -1,11 +1,11 @@
-import { Avatar, Button, Flex, Stack, Text, useDisclosure } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { Avatar, Button, Flex, Stack, Text, useDisclosure } from '@chakra-ui/react';
+import { useContext, useEffect, useState } from 'react';
 
-import { AuthContext } from "@/context/AuthContext";
-import CommentLikes from "../Likes/CommentLikes";
-import { CommentProps } from "@/types/comments.types";
-import { ConfirmDeleteComment } from "./ConfirmDeleteComment";
-import EditCommentModal from "./EditCommentModal";
+import { AuthContext } from '@/context/AuthContext';
+import { CommentProps } from '@/types/comments.types';
+import CommentLikes from '../Likes/CommentLikes';
+import { ConfirmDeleteComment } from './ConfirmDeleteComment';
+import EditCommentModal from './EditCommentModal';
 
 export default function Comment({ comment }: { comment: CommentProps }) {
   const { user } = useContext(AuthContext);
@@ -32,7 +32,7 @@ export default function Comment({ comment }: { comment: CommentProps }) {
   return (
     <Stack gap={0}>
       <Flex alignItems="center" gap={2}>
-        <Avatar size="sm" />
+        <Avatar size="xs" name={comment?.user_email} />
         <Text fontWeight={400} fontSize="12px" letterSpacing={0.4} lineHeight="20px" my={2}>
           {comment?.user_email}
         </Text>
