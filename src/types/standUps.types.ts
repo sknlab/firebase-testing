@@ -2,8 +2,8 @@ export type CreateStandUpType = {
   user_uid: string;
   user_email: string;
   todaysPlan: string;
-  blockers: string;
-  questions: string;
+  blockers?: string;
+  questions?: string;
   yesterdaysPlan?: string;
   yesterdaysExtras?: string;
   date?: string;

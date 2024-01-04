@@ -46,8 +46,14 @@ export default function CreateStandUp() {
     });
   };
 
-  const onSubmit = async (standUp: { todaysPlan: string; blockers: string; questions: string }) => {
-    const data = { user_uid: user?.uid, user_email: user?.email, ...standUp };
+  const onSubmit = async (standUp: { todaysPlan: string; blockers?: string; questions?: string }) => {
+    const data = {
+      user_uid: user.uid,
+      user_email: user.email,
+      todaysPlan: standUp.todaysPlan,
+      blockers: standUp.blockers || "None",
+      questions: standUp.questions || "None",
+    };
     const res = await createStandUp.mutateAsync(data);
     if (res) {
       handleSuccess(res?.id);
@@ -65,8 +71,8 @@ export default function CreateStandUp() {
 
   return (
     <Layout>
-      <HStack spacing={6}>
-        <VStack minWidth={{ base: "100%", lg: "60%" }} spacing={6} alignItems="start">
+      <HStack spacing={6} w="90%" mx="auto" mb={8} background="#fafafa">
+        <VStack spacing={6} alignItems="start" width="100%">
           <VStack alignItems="start">
             <Heading>Stand-up</Heading>
             <Text color="grey">{today}</Text>
@@ -117,7 +123,6 @@ export default function CreateStandUp() {
             </Text>
           </Flex>
         </VStack>
-        <Box display={{ base: "none", lg: "inherit" }}>watched stuff, a seperate component </Box>
       </HStack>
     </Layout>
   );
