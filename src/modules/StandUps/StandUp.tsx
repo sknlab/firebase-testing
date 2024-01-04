@@ -1,33 +1,23 @@
-import { Box, Button, Card, CardBody, Center, Flex, HStack, Heading, Icon, Stack, StackDivider, Text, useDisclosure } from '@chakra-ui/react';
-import { Suspense, lazy, useContext, useEffect, useState } from 'react';
+import { Box, Button, Card, CardBody, Flex, HStack, Heading, Icon, Stack, StackDivider, Text, useDisclosure } from '@chakra-ui/react';
+import { Suspense, lazy, useContext, useState } from 'react';
 import { FaComment, FaEdit, FaTrash } from 'react-icons/fa';
-import { Link, useParams } from 'react-router-dom';
 
 import LoadingSpinner from '@/components/Spinner/LoadingSpinner';
 import { AuthContext } from '@/context/AuthContext';
-import { getStandUpQuery } from '@/hooks/StandUps.api';
 import { CreateCommentModal } from '@/modules/Comments/CreateCommentModal';
-import Layout from '@/modules/Layout/Layout';
 import StandUpLikes from '@/modules/Likes/StandUpLikes';
 import ConfirmDeleteModal from '@/modules/StandUps/ConfirmDeleteModal';
 import { EditStandUpModal } from '@/modules/StandUps/EditModal';
-import { IoIosArrowRoundBack } from 'react-icons/io';
+import { StandUpProps } from '@/types/standUps.types';
 
 const Comments = lazy(() => import('@/modules/Comments/Comments'));
 
-export default function StandUp() {
+export default function StandUp({ data }: { data: StandUpProps }) {
   const { user } = useContext(AuthContext);
-  const { id } = useParams();
-  const [standUp, setStandUp] = useState({} as any);
+  const [standUp, setStandUp] = useState(data as any);
   const deleteDisclosure = useDisclosure();
   const editDisclosure = useDisclosure();
   const commentDisclosure = useDisclosure();
-
-  useEffect(() => {
-    if (id) {
-      getStandUpQuery(id).then((res) => setStandUp(res));
-    }
-  }, [id]);
 
   const handleUpdateStandUp = (res: {} | undefined) => {
     setStandUp(res);
@@ -41,17 +31,7 @@ export default function StandUp() {
   };
 
   return (
-    <Layout>
-      <Center w="100%">
-        <Link to="/">
-          <HStack gap={2} color="#2563EB">
-            <Icon as={IoIosArrowRoundBack} />
-            <Text fontWeight={400} letterSpacing={-0.1} fontSize="14px" lineHeight="20px" textTransform="capitalize">
-              View all Stand-ups
-            </Text>
-          </HStack>
-        </Link>
-      </Center>
+    <Stack w="100%">
       {standUp?.doc_id ? (
         <>
           <HStack alignItems="start" my={6} position="relative">
@@ -92,7 +72,7 @@ export default function StandUp() {
                   </Text>
                   <Icon as={FaComment} color="facebook" />
                 </Button>
-                <CreateCommentModal standUpId={id} isOpen={commentDisclosure.isOpen} onClose={commentDisclosure.onClose} />
+                <CreateCommentModal standUpId={standUp?.doc_id} isOpen={commentDisclosure.isOpen} onClose={commentDisclosure.onClose} />
                 {user?.email == standUp?.user_email && (
                   <>
                     <Flex gap={2}>
@@ -128,6 +108,6 @@ export default function StandUp() {
       ) : (
         <LoadingSpinner />
       )}
-    </Layout>
+    </Stack>
   );
 }
