@@ -1,34 +1,16 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
-  Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerOverlay,
-  Flex,
-  Icon,
-  Stack,
-  Text,
-  Tooltip,
-  useDisclosure,
-} from '@chakra-ui/react';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { FiChevronRight, FiChevronUp } from 'react-icons/fi';
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerOverlay, Flex, Icon, Stack, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { FiChevronRight, FiChevronUp } from "react-icons/fi";
 
-import { AuthContext } from '@/context/AuthContext';
-import { getAllStandUpsByDateQuery } from '@/hooks/StandUps.api';
-import StandUp from '@/modules/StandUps/StandUp';
-import WriteButton from '@/modules/StandUps/WriteButton';
-import { StandUpProps } from '@/types/standUps.types';
-import { format } from 'date-fns';
-import { onSnapshot } from 'firebase/firestore';
-import { FaCheckCircle } from 'react-icons/fa';
-import { MdBolt } from 'react-icons/md';
+import { AuthContext } from "@/context/AuthContext";
+import { getAllStandUpsByDateQuery } from "@/hooks/StandUps.api";
+import StandUp from "@/modules/StandUps/StandUp";
+import WriteButton from "@/modules/StandUps/WriteButton";
+import { StandUpProps } from "@/types/standUps.types";
+import { format } from "date-fns";
+import { onSnapshot } from "firebase/firestore";
+import { FaCheckCircle } from "react-icons/fa";
+import { MdBolt } from "react-icons/md";
 
 function CheckUserInStandUps({ user_email, standUps }: { user_email: string; standUps: StandUpProps[] }) {
   return standUps.some((standUp) => standUp.user_email === user_email);
@@ -40,9 +22,9 @@ function FilterStandUpsByUser({ user_email, standUps }: { user_email: string; st
 
 export default function StandUpPreview({ date }: { date: Date }) {
   const { user } = useContext(AuthContext);
-  const today = format(new Date(), 'yyyy-MM-dd');
-  const dateShortFormat = format(date, 'yyyy-MM-dd');
-  const dateLongFormat = format(date, 'E, do MMMM yyyy');
+  const today = format(new Date(), "yyyy-MM-dd");
+  const dateShortFormat = format(date, "yyyy-MM-dd");
+  const dateLongFormat = format(date, "E, do MMMM yyyy");
   const [standUps, setStandUps] = useState([] as StandUpProps[]);
 
   const isUser = CheckUserInStandUps({ user_email: user?.email, standUps });
@@ -103,7 +85,7 @@ export default function StandUpPreview({ date }: { date: Date }) {
           {({ isExpanded }) => (
             <>
               <h2>
-                <AccordionButton background={isExpanded ? '#fafafa' : 'white'} boxShadow={isExpanded ? '' : 'md'} p="4" rounded="md">
+                <AccordionButton background={isExpanded ? "#fafafa" : "white"} boxShadow={isExpanded ? "" : "md"} p="4" rounded="md">
                   <Text as="span" flex="1" textAlign="left" fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
                     {standUps?.length} team member(s) attended the stand-up.
                   </Text>
@@ -112,20 +94,7 @@ export default function StandUpPreview({ date }: { date: Date }) {
               </h2>
               <AccordionPanel>
                 {standUps?.map((standUp) => (
-                  <Flex
-                    key={standUp?.doc_id}
-                    my={3}
-                    w="100%"
-                    minH="3em"
-                    background="white"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    boxShadow="lg"
-                    p="4"
-                    rounded="md"
-                    bg="white"
-                    ref={finalRef}
-                  >
+                  <Flex key={standUp?.doc_id} my={3} w="100%" minH="3em" background="white" alignItems="center" justifyContent="space-between" boxShadow="lg" p="4" rounded="md" bg="white" ref={finalRef}>
                     <Text fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
                       {standUp?.user_email} attended the stand-up.
                     </Text>
@@ -151,7 +120,7 @@ const ViewStandUpButton = ({ standUp, finalRef }: { standUp: StandUpProps; final
         </Button>
       </Tooltip>
 
-      <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={{ base: 'full', lg: 'xl' }} finalFocusRef={finalRef}>
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={{ base: "full", lg: "xl" }} finalFocusRef={finalRef}>
         <DrawerOverlay />
         <DrawerContent w="100%">
           <Stack h="2em" zIndex={10}>

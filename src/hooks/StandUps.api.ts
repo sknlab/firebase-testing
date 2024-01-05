@@ -1,5 +1,5 @@
 import { CreateStandUpType, StandUpProps } from "@/types/standUps.types";
-import { addDoc, collection, deleteDoc, doc, getDoc, orderBy, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, limit, orderBy, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
 
 import { db } from "@/config/firebase";
 import { useMutation } from "@tanstack/react-query";
@@ -8,7 +8,6 @@ import { deleteCommentsForStandUp } from "./Comments.api";
 
 const today = format(new Date(), "yyyy-MM-dd");
 const standUpsRef = collection(db, "standUps");
-const newStandUpsRef = collection(db, "newStandUps");
 
 export const getUserStandUpsByDateQuery = (params: { date: string; user_email: string }) => {
   return query(standUpsRef, where("user_email", "==", params.user_email), where("date", "==", params.date));
@@ -45,12 +44,14 @@ export const getStandUpQuery = async (doc_id: string) => {
 export const useCreateStandUp = () => {
   return useMutation({
     mutationFn: async (data: CreateStandUpType) => {
-      const standUpRef = await addDoc(newStandUpsRef, {
+      const standUpRef = await addDoc(standUpsRef, {
         user_uid: data.user_uid,
         user_email: data.user_email,
         todaysPlan: data.todaysPlan,
         question: data.questions,
         blockers: data.blockers,
+        previousPlanExceeded: data.previousPlanExceeded,
+        previousPlanAccomplished: data.previousPlanAccomplished,
         date: today,
         createdAt: serverTimestamp(),
       });
@@ -93,4 +94,22 @@ export const useDeleteStandUp = () => {
       throw new Error(`${error}`);
     },
   });
+};
+
+export const getUserLatestStandUpQuery = async (user_email: string) => {
+  const queryRef = query(standUpsRef, where("user_email", "==", user_email), orderBy("createdAt", "desc"), limit(1));
+
+  try {
+    const querySnapshot = await getDocs(queryRef);
+
+    if (!querySnapshot.empty) {
+      const latestStandUpDoc = querySnapshot.docs[0];
+      const latestStandUpData = latestStandUpDoc.data();
+      return latestStandUpData;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    throw new Error("No such document!");
+  }
 };
