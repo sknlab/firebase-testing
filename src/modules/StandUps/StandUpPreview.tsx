@@ -1,3 +1,4 @@
+import { getDateLongFormat, getDateShortFormat, getDateToday } from '@/helpers/date.helpers';
 import {
   Accordion,
   AccordionButton,
@@ -17,19 +18,17 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
-import { FiChevronRight, FiChevronUp } from 'react-icons/fi';
-import { getDateLongFormat, getDateShortFormat, getDateToday } from '@/helpers/date.helpers';
 import { useContext, useEffect, useRef, useState } from 'react';
+import { FiChevronRight, FiChevronUp } from 'react-icons/fi';
 
 import { AuthContext } from '@/context/AuthContext';
+import { getAllStandUpsByDateQuery } from '@/hooks/StandUps.api';
+import StandUp from '@/modules/StandUps/StandUp';
+import WriteButton from '@/modules/StandUps/WriteButton';
+import { StandUpProps } from '@/types/standUps.types';
+import { onSnapshot } from 'firebase/firestore';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdBolt } from 'react-icons/md';
-import StandUp from '@/modules/StandUps/StandUp';
-import { StandUpProps } from '@/types/standUps.types';
-import WriteButton from '@/modules/StandUps/WriteButton';
-import { format } from 'date-fns';
-import { getAllStandUpsByDateQuery } from '@/hooks/StandUps.api';
-import { onSnapshot } from 'firebase/firestore';
 
 function CheckUserInStandUps({ user_email, standUps }: { user_email: string; standUps: StandUpProps[] }) {
   return standUps.some((standUp) => standUp.user_email === user_email);
@@ -44,7 +43,7 @@ export default function StandUpPreview({ date }: { date: Date }) {
   const today = getDateToday();
   const dateShortFormat = getDateShortFormat(date);
   const dateLongFormat = getDateLongFormat(date);
-  
+
   const [standUps, setStandUps] = useState([] as StandUpProps[]);
   const isUser = CheckUserInStandUps({ user_email: user?.email, standUps });
   const userStandUps = FilterStandUpsByUser({ user_email: user?.email, standUps });
