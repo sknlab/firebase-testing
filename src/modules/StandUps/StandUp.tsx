@@ -4,12 +4,12 @@ import { FaComment, FaEdit, FaTrash } from 'react-icons/fa';
 
 import LoadingSpinner from '@/components/Spinner/LoadingSpinner';
 import { AuthContext } from '@/context/AuthContext';
+import { getDateLongFormat } from '@/helpers/date.helpers';
 import { CreateCommentModal } from '@/modules/Comments/CreateCommentModal';
 import StandUpLikes from '@/modules/Likes/StandUpLikes';
 import ConfirmDeleteModal from '@/modules/StandUps/ConfirmDeleteModal';
 import { EditStandUpModal } from '@/modules/StandUps/EditModal';
 import { StandUpProps } from '@/types/standUps.types';
-import { format } from 'date-fns';
 
 const Comments = lazy(() => import('@/modules/Comments/Comments'));
 
@@ -21,7 +21,7 @@ export default function StandUp({ data }: { data: StandUpProps }) {
   const commentDisclosure = useDisclosure();
 
   const date = new Date(standUp?.date);
-  const dateLongFormat = format(date, 'E, do MMMM yyyy');
+  const dateLongFormat = getDateLongFormat(date);
 
   const handleUpdateStandUp = (res: {} | undefined) => {
     setStandUp(res);
@@ -47,8 +47,9 @@ export default function StandUp({ data }: { data: StandUpProps }) {
                       <Avatar size="xs" name={standUp?.user_email} />
                       <Text fontWeight={400}>{standUp?.user_email}</Text>
                     </Flex>
+
                     <Text fontSize="14px" letterSpacing={0.4} lineHeight="20px" color="grey">
-                      Posted on {dateLongFormat}
+                      Posted on &nbsp;{dateLongFormat}
                     </Text>
                   </Box>
                   <Box>

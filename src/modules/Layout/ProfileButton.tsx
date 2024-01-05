@@ -1,15 +1,17 @@
 import { Avatar, Flex, HStack, Icon, Menu, MenuButton, MenuItem, MenuList, Text, VStack, useToast } from '@chakra-ui/react';
-import { FiChevronDown, FiLogOut } from 'react-icons/fi';
+import { FiChevronDown, FiLogOut, FiUser } from 'react-icons/fi';
 
 import { AuthContext } from '@/context/AuthContext';
 import { handleLogout } from '@/hooks/Auth.api';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function Profile() {
+export default function ProfileButton() {
   const { user, dispatch } = useContext(AuthContext);
   const toast = useToast();
   const navigate = useNavigate();
+
+ 
 
   const handleSignOut = () => {
     handleLogout().then(() => {
@@ -47,12 +49,19 @@ export default function Profile() {
         </MenuButton>
 
         <MenuList gap={2}>
-          <MenuItem isDisabled>Profile</MenuItem>
+          <MenuItem isDisabled onClick={() => navigate('/admin')}>
+            <Flex w="100%" alignItems="center" justifyContent="space-between">
+              <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
+                Profile
+              </Text>
+              <Icon as={FiUser} mx={1} />
+            </Flex>
+          </MenuItem>
           <MenuItem onClick={handleSignOut}>
-            <Flex w='100%' alignItems="center" justifyContent="space-between">
-            <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
-              Logout
-            </Text>
+            <Flex w="100%" alignItems="center" justifyContent="space-between">
+              <Text fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
+                Logout
+              </Text>
               <Icon as={FiLogOut} mx={1} />
             </Flex>
           </MenuItem>

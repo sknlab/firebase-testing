@@ -7,6 +7,7 @@ import PrivateRoute from '@/modules/Auth/PrivateRoute';
 
 const Dashboard = React.lazy(() => import('@/modules/Dashboard/Dashboard'));
 const StandUp = React.lazy(() => import('@/modules/StandUps/StandUp'));
+const Admin = React.lazy(() => import('@/modules/Admin/Admin'));
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<PrivateRoute component={Dashboard} />} />
           <Route path="/standUp/:id" element={<PrivateRoute component={StandUp} />} />
+          <Route path="/admin" element={<PrivateRoute component={Admin} />} />
 
           <Route path="/login" element={<Login />} />
         </Routes>

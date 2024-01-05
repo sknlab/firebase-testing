@@ -17,18 +17,19 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useContext, useEffect, useRef, useState } from 'react';
 import { FiChevronRight, FiChevronUp } from 'react-icons/fi';
+import { getDateLongFormat, getDateShortFormat, getDateToday } from '@/helpers/date.helpers';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import { AuthContext } from '@/context/AuthContext';
-import { getAllStandUpsByDateQuery } from '@/hooks/StandUps.api';
-import StandUp from '@/modules/StandUps/StandUp';
-import WriteButton from '@/modules/StandUps/WriteButton';
-import { StandUpProps } from '@/types/standUps.types';
-import { format } from 'date-fns';
-import { onSnapshot } from 'firebase/firestore';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdBolt } from 'react-icons/md';
+import StandUp from '@/modules/StandUps/StandUp';
+import { StandUpProps } from '@/types/standUps.types';
+import WriteButton from '@/modules/StandUps/WriteButton';
+import { format } from 'date-fns';
+import { getAllStandUpsByDateQuery } from '@/hooks/StandUps.api';
+import { onSnapshot } from 'firebase/firestore';
 
 function CheckUserInStandUps({ user_email, standUps }: { user_email: string; standUps: StandUpProps[] }) {
   return standUps.some((standUp) => standUp.user_email === user_email);
@@ -40,11 +41,11 @@ function FilterStandUpsByUser({ user_email, standUps }: { user_email: string; st
 
 export default function StandUpPreview({ date }: { date: Date }) {
   const { user } = useContext(AuthContext);
-  const today = format(new Date(), 'yyyy-MM-dd');
-  const dateShortFormat = format(date, 'yyyy-MM-dd');
-  const dateLongFormat = format(date, 'E, do MMMM yyyy');
+  const today = getDateToday();
+  const dateShortFormat = getDateShortFormat(date);
+  const dateLongFormat = getDateLongFormat(date);
+  
   const [standUps, setStandUps] = useState([] as StandUpProps[]);
-
   const isUser = CheckUserInStandUps({ user_email: user?.email, standUps });
   const userStandUps = FilterStandUpsByUser({ user_email: user?.email, standUps });
   const finalRef = useRef<HTMLDivElement>(null);
@@ -70,7 +71,7 @@ export default function StandUpPreview({ date }: { date: Date }) {
 
   return (
     <Stack w="100%" mx="auto" mb={8} background="#fafafa">
-      <Text fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
+      <Text fontWeight={500} fontSize="16px" letterSpacing={0.4} lineHeight="20px" my={2}>
         {dateLongFormat}
       </Text>
 
@@ -105,7 +106,7 @@ export default function StandUpPreview({ date }: { date: Date }) {
               <h2>
                 <AccordionButton background={isExpanded ? '#fafafa' : 'white'} boxShadow={isExpanded ? '' : 'md'} p="4" rounded="md">
                   <Text as="span" flex="1" textAlign="left" fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
-                    {standUps?.length} team member(s) attended the stand-up.
+                    {standUps?.length} team member{standUps?.length >= 2 ? 's' : ''} attended the stand-up.
                   </Text>
                   {isExpanded && standUps?.length > 0 ? <FiChevronUp /> : <AccordionIcon />}
                 </AccordionButton>
