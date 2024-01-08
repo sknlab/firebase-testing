@@ -16,3 +16,11 @@ export type StandUpProps = {
   date?: string;
   likes?: string[];
 };
+
+export type ViewStandUpProps = {
+  standUp: StandUpProps;
+  finalRef: any;
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+};

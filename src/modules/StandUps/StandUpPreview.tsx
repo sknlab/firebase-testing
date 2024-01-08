@@ -1,4 +1,3 @@
-import { getDateLongFormat, getDateShortFormat, getDateToday } from '@/helpers/date.helpers';
 import {
   Accordion,
   AccordionButton,
@@ -18,17 +17,18 @@ import {
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useContext, useEffect, useRef, useState } from 'react';
 import { FiChevronRight, FiChevronUp } from 'react-icons/fi';
+import { getDateLongFormat, getDateShortFormat, getDateToday } from '@/helpers/date.helpers';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import { AuthContext } from '@/context/AuthContext';
-import { getAllStandUpsByDateQuery } from '@/hooks/StandUps.api';
-import StandUp from '@/modules/StandUps/StandUp';
-import WriteButton from '@/modules/StandUps/WriteButton';
-import { StandUpProps } from '@/types/standUps.types';
-import { onSnapshot } from 'firebase/firestore';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MdBolt } from 'react-icons/md';
+import StandUp from '@/modules/StandUps/StandUp';
+import { StandUpProps } from '@/types/standUps.types';
+import WriteButton from '@/modules/StandUps/WriteButton';
+import { getAllStandUpsByDateQuery } from '@/hooks/StandUps.api';
+import { onSnapshot } from 'firebase/firestore';
 
 function CheckUserInStandUps({ user_email, standUps }: { user_email: string; standUps: StandUpProps[] }) {
   return standUps.some((standUp) => standUp.user_email === user_email);
@@ -86,24 +86,20 @@ export default function StandUpPreview({ date }: { date: Date }) {
         </Flex>
       )}
 
-      {isUser === true && (
-        <Flex w="100%" h="3em" alignItems="center" justifyContent="space-between" color="green.500">
-          <Flex h="inherit" gap={1} alignItems="center" justifyContent="space-between">
-            <Icon as={FaCheckCircle} h="1em" w="1em" />
-            <Text fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2} color="green.500">
-              You attended the stand-up.
-            </Text>
-          </Flex>
-          <ViewStandUpButton standUp={userStandUps[0]} finalRef={finalRef} />
-        </Flex>
-      )}
+      {isUser === true && <ViewStandUpButton standUp={userStandUps[0]} finalRef={finalRef} isUser={isUser} />}
 
       <Accordion allowToggle>
         <AccordionItem>
           {({ isExpanded }) => (
             <>
               <h2>
-                <AccordionButton background={isExpanded ? '#fafafa' : 'white'} boxShadow={isExpanded ? '' : 'md'} p="4" rounded="md">
+                <AccordionButton
+                  background={isExpanded ? '#fafafa' : 'white'}
+                  boxShadow={isExpanded ? '' : 'md'}
+                  p="4"
+                  rounded="md"
+                  _hover={{ background: '#fafafa' }}
+                >
                   <Text as="span" flex="1" textAlign="left" fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
                     {standUps?.length} team member{standUps?.length >= 2 ? 's' : ''} attended the stand-up.
                   </Text>
@@ -112,25 +108,7 @@ export default function StandUpPreview({ date }: { date: Date }) {
               </h2>
               <AccordionPanel>
                 {standUps?.map((standUp) => (
-                  <Flex
-                    key={standUp?.doc_id}
-                    my={3}
-                    w="100%"
-                    minH="3em"
-                    background="white"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    boxShadow="lg"
-                    p="4"
-                    rounded="md"
-                    bg="white"
-                    ref={finalRef}
-                  >
-                    <Text fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
-                      {standUp?.user_email} attended the stand-up.
-                    </Text>
-                    <ViewStandUpButton standUp={standUp} finalRef={finalRef} />
-                  </Flex>
+                  <ViewStandUpButton standUp={standUp} finalRef={finalRef} />
                 ))}
               </AccordionPanel>
             </>
@@ -141,15 +119,57 @@ export default function StandUpPreview({ date }: { date: Date }) {
   );
 }
 
-const ViewStandUpButton = ({ standUp, finalRef }: { standUp: StandUpProps; finalRef?: any }) => {
+const ViewStandUpButton = ({ standUp, finalRef, isUser }: { standUp: StandUpProps; finalRef?: any; isUser?: boolean }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Tooltip label="View" placement="top" closeOnClick={true}>
-        <Button variant="solid" alignItems="center" color="#2563EB" onClick={onOpen} colorScheme="gray">
-          <Icon as={FiChevronRight} h="1em" w="1em" />
-        </Button>
-      </Tooltip>
+      {isUser === true ? (
+        <Flex w="100%" h="3em" alignItems="center" justifyContent="space-between" color="green.500">
+          <Flex h="inherit" gap={1} alignItems="center" justifyContent="space-between" cursor="pointer" onClick={onOpen}>
+            <Icon as={FaCheckCircle} h="1em" w="1em" />
+            <Text fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2} color="green.500">
+              You attended the stand-up.
+            </Text>
+          </Flex>
+          <Tooltip label="View" placement="top" closeOnClick={true}>
+            <Button variant="solid" alignItems="center" color="#2563EB" colorScheme="gray" onClick={onOpen}>
+              <Icon as={FiChevronRight} h="1em" w="1em" />
+            </Button>
+          </Tooltip>
+        </Flex>
+      ) : (
+        <Flex
+          key={standUp?.doc_id}
+          my={3}
+          w="100%"
+          minH="3em"
+          background="white"
+          alignItems="center"
+          justifyContent="space-between"
+          boxShadow="lg"
+          p="4"
+          rounded="md"
+          bg="white"
+          ref={finalRef}
+          cursor="pointer"
+          onClick={onOpen}
+        >
+          <Flex alignItems="center" justifyContent="flex-start" gap={1}>
+            <Text fontWeight={500} fontSize="15px" letterSpacing={0.4} lineHeight="20px" my={2}>
+              {standUp?.user_email}
+            </Text>
+            <Text fontWeight={400} fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2}>
+              attended the stand-up.
+            </Text>
+          </Flex>
+
+          <Tooltip label="View" placement="top" closeOnClick={true}>
+            <Button variant="solid" alignItems="center" color="#2563EB" colorScheme="gray">
+              <Icon as={FiChevronRight} h="1em" w="1em" />
+            </Button>
+          </Tooltip>
+        </Flex>
+      )}
 
       <Drawer isOpen={isOpen} placement="right" onClose={onClose} size={{ base: 'full', lg: 'xl' }} finalFocusRef={finalRef}>
         <DrawerOverlay />

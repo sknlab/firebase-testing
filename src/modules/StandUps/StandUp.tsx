@@ -1,15 +1,15 @@
 import { Avatar, Box, Button, Card, CardBody, Flex, HStack, Icon, Stack, StackDivider, Text, useDisclosure } from '@chakra-ui/react';
-import { Suspense, lazy, useContext, useState } from 'react';
 import { FaComment, FaEdit, FaTrash } from 'react-icons/fa';
+import { Suspense, lazy, useContext, useState } from 'react';
 
-import LoadingSpinner from '@/components/Spinner/LoadingSpinner';
 import { AuthContext } from '@/context/AuthContext';
-import { getDateLongFormat } from '@/helpers/date.helpers';
-import { CreateCommentModal } from '@/modules/Comments/CreateCommentModal';
-import StandUpLikes from '@/modules/Likes/StandUpLikes';
 import ConfirmDeleteModal from '@/modules/StandUps/ConfirmDeleteModal';
+import { CreateCommentModal } from '@/modules/Comments/CreateCommentModal';
 import { EditStandUpModal } from '@/modules/StandUps/EditModal';
+import LoadingSpinner from '@/components/Spinner/LoadingSpinner';
+import StandUpLikes from '@/modules/Likes/StandUpLikes';
 import { StandUpProps } from '@/types/standUps.types';
+import { getDateLongFormat } from '@/helpers/date.helpers';
 
 const Comments = lazy(() => import('@/modules/Comments/Comments'));
 
@@ -64,7 +64,7 @@ export default function StandUp({ data }: { data: StandUpProps }) {
                   </Box>
                 </Stack>
               </CardBody>
-              <Flex alignItems="center" justifyContent="flex-end">
+              <Flex alignItems="center" justifyContent="flex-start">
                 <StandUpLikes likesArray={standUp?.likes} doc_id={standUp?.doc_id} handleUpdateLikes={handleUpdateStandUpLikes} />
               </Flex>
             </Card>
