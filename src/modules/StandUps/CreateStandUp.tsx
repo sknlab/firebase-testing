@@ -33,7 +33,6 @@ export default function CreateStandUp() {
     }
   }, [user]);
 
-  console.log(latestStandUp);
   const {
     register,
     handleSubmit,
