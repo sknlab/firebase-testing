@@ -1,17 +1,17 @@
-import { Avatar, Box, Button, Card, CardBody, Flex, HStack, Icon, Stack, StackDivider, Text, useDisclosure } from '@chakra-ui/react';
-import { Suspense, lazy, useContext, useState } from 'react';
-import { FaComment, FaEdit, FaTrash } from 'react-icons/fa';
+import { Avatar, Box, Button, Card, CardBody, Flex, HStack, Icon, Stack, StackDivider, Text, useDisclosure } from "@chakra-ui/react";
+import { Suspense, lazy, useContext, useState } from "react";
+import { FaComment, FaEdit, FaTrash } from "react-icons/fa";
 
-import LoadingSpinner from '@/components/Spinner/LoadingSpinner';
-import { AuthContext } from '@/context/AuthContext';
-import { CreateCommentModal } from '@/modules/Comments/CreateCommentModal';
-import StandUpLikes from '@/modules/Likes/StandUpLikes';
-import ConfirmDeleteModal from '@/modules/StandUps/ConfirmDeleteModal';
-import { EditStandUpModal } from '@/modules/StandUps/EditModal';
-import { StandUpProps } from '@/types/standUps.types';
-import { format } from 'date-fns';
+import LoadingSpinner from "@/components/Spinner/LoadingSpinner";
+import { AuthContext } from "@/context/AuthContext";
+import { CreateCommentModal } from "@/modules/Comments/CreateCommentModal";
+import StandUpLikes from "@/modules/Likes/StandUpLikes";
+import ConfirmDeleteModal from "@/modules/StandUps/ConfirmDeleteModal";
+import { EditStandUpModal } from "@/modules/StandUps/EditModal";
+import { StandUpProps } from "@/types/standUps.types";
+import { format } from "date-fns";
 
-const Comments = lazy(() => import('@/modules/Comments/Comments'));
+const Comments = lazy(() => import("@/modules/Comments/Comments"));
 
 export default function StandUp({ data }: { data: StandUpProps }) {
   const { user } = useContext(AuthContext);
@@ -21,7 +21,7 @@ export default function StandUp({ data }: { data: StandUpProps }) {
   const commentDisclosure = useDisclosure();
 
   const date = new Date(standUp?.date);
-  const dateLongFormat = format(date, 'E, do MMMM yyyy');
+  const dateLongFormat = format(date, "E, do MMMM yyyy");
 
   const handleUpdateStandUp = (res: {} | undefined) => {
     setStandUp(res);
@@ -42,7 +42,7 @@ export default function StandUp({ data }: { data: StandUpProps }) {
             <Card minW="100%">
               <CardBody>
                 <Stack divider={<StackDivider />} spacing="4">
-                  <Box mt={{ base: '2em', md: 0 }}>
+                  <Box mt={{ base: "2em", md: 0 }}>
                     <Flex fontSize="14px" letterSpacing={0.4} lineHeight="20px" my={2} alignItems="center" color="#000" gap={2}>
                       <Avatar size="xs" name={standUp?.user_email} />
                       <Text fontWeight={400}>{standUp?.user_email}</Text>
@@ -53,12 +53,12 @@ export default function StandUp({ data }: { data: StandUpProps }) {
                   </Box>
                   <Box>
                     <Text pt="2" fontSize="16px" fontWeight={600} letterSpacing={0.4} lineHeight="20px">
-                      {standUp?.title}
+                      {standUp?.todaysPlan}
                     </Text>
                   </Box>
                   <Box>
                     <Text pt="2" fontSize="14px" fontWeight={400} letterSpacing={0.4} lineHeight="20px">
-                      {standUp?.description}
+                      {standUp?.todaysPlan}
                     </Text>
                   </Box>
                 </Stack>
@@ -92,12 +92,7 @@ export default function StandUp({ data }: { data: StandUpProps }) {
                         <Icon as={FaTrash} color="red" />
                       </Button>
                     </Flex>
-                    <EditStandUpModal
-                      standUp={standUp}
-                      handleUpdateStandUp={handleUpdateStandUp}
-                      isOpen={editDisclosure.isOpen}
-                      onClose={editDisclosure.onClose}
-                    />
+                    <EditStandUpModal standUp={standUp} handleUpdateStandUp={handleUpdateStandUp} isOpen={editDisclosure.isOpen} onClose={editDisclosure.onClose} />
                     <ConfirmDeleteModal doc_id={standUp?.doc_id} isOpen={deleteDisclosure.isOpen} onClose={deleteDisclosure.onClose} />
                   </>
                 )}

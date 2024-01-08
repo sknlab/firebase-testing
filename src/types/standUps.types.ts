@@ -1,9 +1,15 @@
+import { Timestamp } from "firebase/firestore";
+
 export type CreateStandUpType = {
-  user_uid: string;
-  user_email: string;
-  title: string;
-  description: string;
+  user_uid?: string;
+  user_email?: string;
+  todaysPlan?: string;
+  blockers?: string;
+  questions?: string;
+  previousPlanAccomplished?: string;
+  previousPlanExceeded?: string;
   date?: string;
+  createdAt?: Timestamp;
 };
 
 export type StandUpProps = {
